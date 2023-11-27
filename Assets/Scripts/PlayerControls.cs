@@ -84,17 +84,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""21c56374-6f6b-4613-b810-7b7d42732f59"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector [Keyboard]"",
                     ""id"": ""ea31ce2f-fcde-4983-b7f9-5e9b47fe39dc"",
                     ""path"": ""2DVector"",
@@ -151,12 +140,23 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""361c308c-dded-4180-af69-de4c1283882b"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""id"": ""21c56374-6f6b-4613-b810-7b7d42732f59"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""PunchL"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6fb162f-24be-4196-8c5b-19fad329c6d7"",
+                    ""path"": ""<HID::USB Gamepad >/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""USB Controller"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -173,12 +173,23 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4d6ae624-f52e-4510-8eca-ade13a0fd4b5"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""id"": ""361c308c-dded-4180-af69-de4c1283882b"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""PunchR"",
+                    ""action"": ""PunchL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de66ccaf-e50e-4ba4-aee9-61a42ef3c231"",
+                    ""path"": ""<HID::USB Gamepad >/button7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""USB Controller"",
+                    ""action"": ""PunchL"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -195,12 +206,23 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""25a7d0cd-fa80-48e7-b85d-efdc3cf91239"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""id"": ""4d6ae624-f52e-4510-8eca-ade13a0fd4b5"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""KickL"",
+                    ""action"": ""PunchR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d081959d-3e4e-4859-8ff0-666c2aa20296"",
+                    ""path"": ""<HID::USB Gamepad >/button8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""USB Controller"",
+                    ""action"": ""PunchR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -217,6 +239,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""25a7d0cd-fa80-48e7-b85d-efdc3cf91239"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""KickL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60312dc2-7821-4a92-98fb-1a4f42fa4f3d"",
+                    ""path"": ""<HID::USB Gamepad >/button5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""USB Controller"",
+                    ""action"": ""KickL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96ce5bb6-8e31-4115-8e74-bee11042fdfd"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""KickR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""35507a93-866d-48e5-82ca-118ed579d07e"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -228,11 +283,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""96ce5bb6-8e31-4115-8e74-bee11042fdfd"",
-                    ""path"": ""<Keyboard>/l"",
+                    ""id"": ""1110763f-39a9-4ffd-9ab2-29f9fd6d7d1b"",
+                    ""path"": ""<HID::USB Gamepad >/button6"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""USB Controller"",
                     ""action"": ""KickR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -255,6 +310,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf006eb8-5810-45f3-9b0d-2e589ddc4a5f"",
+                    ""path"": ""<HID::USB Gamepad >/button3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""USB Controller"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -289,6 +355,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""USB Controller"",
+            ""bindingGroup"": ""USB Controller"",
+            ""devices"": []
         }
     ]
 }");
@@ -459,6 +530,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (m_ControllerSchemeIndex == -1) m_ControllerSchemeIndex = asset.FindControlSchemeIndex("Controller");
             return asset.controlSchemes[m_ControllerSchemeIndex];
+        }
+    }
+    private int m_USBControllerSchemeIndex = -1;
+    public InputControlScheme USBControllerScheme
+    {
+        get
+        {
+            if (m_USBControllerSchemeIndex == -1) m_USBControllerSchemeIndex = asset.FindControlSchemeIndex("USB Controller");
+            return asset.controlSchemes[m_USBControllerSchemeIndex];
         }
     }
     public interface IPlayerActions
