@@ -19,7 +19,10 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movementInput = Vector2.zero;
     private bool jumped = false;
+    private bool isLpunch = false;
     private bool isRpunch = false;
+    private bool isLkick = false;
+    private bool isRkick = false;
 
     private Animator animator;
 
@@ -50,11 +53,35 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("jumped");
         }
     }
+    public void LPunch(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            animator.SetTrigger("isLpunch");
+        }
+
+    }
     public void RPunch(InputAction.CallbackContext context)
     {
         if (context.action.triggered)
         {
             animator.SetTrigger("isRpunch");
+        }
+
+    }
+    public void LKick(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            animator.SetTrigger("isLkick");
+        }
+
+    }
+    public void RKick(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            animator.SetTrigger("isRkick");
         }
 
     }
