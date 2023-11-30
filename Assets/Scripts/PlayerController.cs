@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.triggered)
         {
-            animator.SetTrigger("isLpunch");
+           animator.CrossFadeInFixedTime("Left Punch",0);
         }
 
     }
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.triggered)
         {
-            animator.SetTrigger("isRpunch");
+            animator.CrossFadeInFixedTime("Right Punch", 0);
         }
 
     }

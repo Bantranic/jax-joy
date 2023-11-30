@@ -32,10 +32,10 @@
             float2 matcap_uv_compute(float3 I, float3 N, bool flipped)
             {
               /* Quick creation of an orthonormal basis */
-              float a = 1.0 / (1.0 + I.z);
-              float b = -I.x * I.y * a;
+              float a = 1.0 / (1.0 + I.y);
+              float b = -I.x * I.z * a;
               float3 b1 = float3(1.0 - I.x * I.x * a, b, -I.x);
-              float3 b2 = float3(b, 1.0 - I.y * I.y * a, -I.y);
+              float3 b2 = float3(b, 1.0 - I.z * I.z * a, -I.z);
               float2 matcap_uv = float2(dot(b1, N), dot(b2, N));
               if (flipped) {
                 matcap_uv.x = -matcap_uv.x;

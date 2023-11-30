@@ -331,18 +331,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d0ba519647ee3e44c8ef81c15b38e86b, type: 2}
-    - target: {fileID: 4893358217089107945, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
-      propertyPath: jumpHeight
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893358217089107945, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
-      propertyPath: playerSpeed
-      value: 5.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893358217089107945, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
-      propertyPath: gravityValue
-      value: -30
-      objectReference: {fileID: 0}
     - target: {fileID: 6589711193976544807, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
       propertyPath: m_DefaultControlScheme
       value: Controller
@@ -1710,7 +1698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4756940127573452776, guid: 61990482c637f1649831ad93df20bc76, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Keyboard
+      value: Controller
       objectReference: {fileID: 0}
     - target: {fileID: 4756940127573452776, guid: 61990482c637f1649831ad93df20bc76, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
@@ -1864,29 +1852,13 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 6472231984166237838, guid: 61990482c637f1649831ad93df20bc76, type: 3}
-      propertyPath: jumpHeight
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6472231984166237838, guid: 61990482c637f1649831ad93df20bc76, type: 3}
-      propertyPath: playerSpeed
-      value: 5.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6472231984166237838, guid: 61990482c637f1649831ad93df20bc76, type: 3}
-      propertyPath: gravityValue
-      value: -30
-      objectReference: {fileID: 0}
     - target: {fileID: 6882257250466295138, guid: 61990482c637f1649831ad93df20bc76, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 56a1f64e952c65649b2f4fbc13382ae1, type: 2}
     - target: {fileID: 7916101884832281727, guid: 61990482c637f1649831ad93df20bc76, type: 3}
-      propertyPath: m_SkinWidth
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 7916101884832281727, guid: 61990482c637f1649831ad93df20bc76, type: 3}
-      propertyPath: m_SlopeLimit
-      value: 45
+      propertyPath: m_MinMoveDistance
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

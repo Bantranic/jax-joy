@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db4b302121d7624ba08cc3bbf9d6aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 6
-  jumpHeight: 1
-  gravityValue: -9.81
+  playerSpeed: 5.6
+  jumpHeight: 1.4
+  gravityValue: -30
 --- !u!143 &2178526468072896579
 CharacterController:
   m_ObjectHideFlags: 0

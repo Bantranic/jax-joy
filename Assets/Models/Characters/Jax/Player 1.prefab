@@ -152,9 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db4b302121d7624ba08cc3bbf9d6aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 2
-  jumpHeight: 1
-  gravityValue: -9.81
+  playerSpeed: 5.6
+  jumpHeight: 1.4
+  gravityValue: -30
 --- !u!143 &7916101884832281727
 CharacterController:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0
+  m_MinMoveDistance: 0.04
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &4996795217563202277
 Animator:
