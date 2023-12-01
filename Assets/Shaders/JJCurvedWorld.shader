@@ -1,10 +1,14 @@
-﻿Shader "Custom/JJSimpleLightWrap"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "Custom/JJCurvedWorld"
 {
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
         _Lightwrap ("Lightwrap", 2D) = "white" {}
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
+		_Curvature ("Curvature", Float) = 0.001
     }
     SubShader
     {
@@ -24,6 +28,7 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+			uniform float _Curvature;
 
             float4 _Color;
             sampler2D _Lightwrap;
@@ -77,10 +82,19 @@
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                //o.vertex = UnityObjectToClipPos(v.vertex);
+                o.vertex = v.vertex;
                 o.normal = UnityObjectToWorldNormal(v.normal);
+				
+				float4 vv = mul( unity_ObjectToWorld, v.vertex );
+				vv.xyz -= _WorldSpaceCameraPos.xyz;
+				vv = float4( 0.0f, (vv.z * vv.z) * - _Curvature, 0.0f, 0.0f );
+				o.vertex += mul(unity_WorldToObject, vv);
+				
+				o.worldPos = mul(unity_ObjectToWorld, o.vertex);
+				o.vertex = UnityObjectToClipPos(o.vertex);
                 o.screenPos = o.vertex;
+				
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
@@ -92,7 +106,7 @@
                 float2 screenPos = i.screenPos.xy / i.screenPos.w;
 
                 float3 forward = mul((float3x3)unity_CameraToWorld, float3(0, 0, 1));
-                float3 viewVec = get_view_vector_from_screen_uv(i.screenPos);
+                //float3 viewVec = get_view_vector_from_screen_uv(i.screenPos);
                 //float3 forward = mul((float3x3)unity_CameraToWorld, float3(0,0,1));
                 float2 matcapUv = matcap_uv_compute(normalize(i.worldPos - _WorldSpaceCameraPos), i.normal, false);
 

@@ -73,15 +73,14 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.triggered)
         {
-            animator.SetTrigger("isLkick");
+            animator.CrossFadeInFixedTime("Left Kick", 0);
         }
-
     }
     public void RKick(InputAction.CallbackContext context)
     {
         if (context.action.triggered)
         {
-            animator.SetTrigger("isRkick");
+            animator.CrossFadeInFixedTime("Right Kick", 0);
         }
 
     }
