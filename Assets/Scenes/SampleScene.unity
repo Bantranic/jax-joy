@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.25330132, g: 0.21698837, b: 0.23319197, a: 1}
+  m_IndirectSpecularColor: {r: 0.25330302, g: 0.21698889, b: 0.23319246, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -652,6 +652,9 @@ PrefabInstance:
       addedObject: {fileID: 954638828}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8258331044333514086, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 875651429}
+    - targetCorrespondingSourceObject: {fileID: 8258331044333514086, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 875651423}
     - targetCorrespondingSourceObject: {fileID: 8258331044333514086, guid: d72438e8d891d8d4cb0f62e0c6bb42b4, type: 3}
@@ -909,6 +912,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &875651429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182973271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc36f6175f25c4549bde70cc6b30e51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  resetTime: 0
+  state: 0
+  lastAttackID: 0
 --- !u!1 &905560704
 GameObject:
   m_ObjectHideFlags: 3
@@ -1860,6 +1879,7 @@ GameObject:
   - component: {fileID: 1524450065}
   - component: {fileID: 1524450064}
   - component: {fileID: 1524450063}
+  - component: {fileID: 1524450067}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Enemy
@@ -1953,6 +1973,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1524450067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524450062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc36f6175f25c4549bde70cc6b30e51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  resetTime: 0
+  state: 0
+  lastAttackID: 0
 --- !u!1 &1648009516 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1599826595754709761, guid: 61e3146c41ba2eb4187ce84ff6a3a22e, type: 3}
@@ -2683,7 +2719,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 979855448}
+  m_Follow: {fileID: 1089463180}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 60

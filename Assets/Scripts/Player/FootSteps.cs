@@ -7,12 +7,12 @@ public class FootSteps : MonoBehaviour
 
     private AudioSource audioSource;
 
-    private void Awake()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Step()
+    void Step()
     {
         AudioClip clip = stoneClips[UnityEngine.Random.Range(0,stoneClips.Length)];
         audioSource.PlayOneShot(clip);
