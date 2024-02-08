@@ -44,11 +44,14 @@ public class PlayerController : MonoBehaviour
     // Amount of attacks that have been performed
     private int attackCounter = 0;
 
-    private bool bLeftPunch = false;
+    // Sets up alternating attacks
+    public bool bLeftPunch = false;
+    public bool bLeftKick = true;
+    float LastAttackTime = 0;
 
     private Animator animator;
 
-    //Hitbox positions array (use Blender coords)
+    // Hitbox positions array (use Blender coords)
     static Vector3[] HitBoxPositions = new Vector3[] {
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Punch
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Kick
@@ -58,7 +61,7 @@ public class PlayerController : MonoBehaviour
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Right Kick
     };
 
-    //Hitbox sizes array (use Blender size /2)
+    // Hitbox sizes array (use Blender size /2)
     static Vector3[] HitBoxSizes = new Vector3[] {
         new Vector3 (0.21f, 0.21f, 0.37f), // Punch
         new Vector3 (0.21f, 0.21f, 0.37f), // Kick
@@ -108,6 +111,8 @@ public class PlayerController : MonoBehaviour
                 animator.CrossFadeInFixedTime("Right Punch", 0);
 
             bLeftPunch = !bLeftPunch;
+
+            LastAttackTime = Time.time;
         }
 
     }
@@ -115,39 +120,46 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.triggered)
         {
-            animator.CrossFadeInFixedTime("Kick", 0);
+            if (bLeftKick)
+                animator.CrossFadeInFixedTime("Left Kick", 0);
+            else
+                animator.CrossFadeInFixedTime("Right Kick", 0);
+
+            bLeftKick = !bLeftKick;
+
+            LastAttackTime = Time.time;
         }
 
     }
     public void LPunch(InputAction.CallbackContext context)
     {
-        if (context.action.triggered)
-        {
-           animator.CrossFadeInFixedTime("Left Punch",0);
-        }
+        //if (context.action.triggered)
+        //{
+        //   animator.CrossFadeInFixedTime("Left Punch",0);
+        //}
 
     }
     public void RPunch(InputAction.CallbackContext context)
     {
-        if (context.action.triggered)
-        {
-            animator.CrossFadeInFixedTime("Right Punch", 0);
-        }
+        //if (context.action.triggered)
+        //{
+        //    animator.CrossFadeInFixedTime("Right Punch", 0);
+        //}
 
     }
     public void LKick(InputAction.CallbackContext context)
     {
-        if (context.action.triggered)
-        {
-            animator.CrossFadeInFixedTime("Left Kick", 0);
-        }
+        //if (context.action.triggered)
+        //{
+        //    animator.CrossFadeInFixedTime("Left Kick", 0);
+        //}
     }
     public void RKick(InputAction.CallbackContext context)
     {
-        if (context.action.triggered)
-        {
-            animator.CrossFadeInFixedTime("Right Kick", 0);
-        }
+        //if (context.action.triggered)
+        //{
+        //    animator.CrossFadeInFixedTime("Right Kick", 0);
+        //}
 
     }
 
@@ -163,6 +175,15 @@ public class PlayerController : MonoBehaviour
     // Hit detection for attacks
     void UpdateAttacks ()
     {
+        // Makes right punch first attack
+        if (Time.time > LastAttackTime + 0.5f && bLeftPunch == true)
+            bLeftPunch = false;
+
+        // Makes right kick first attack
+        if (Time.time > LastAttackTime + 0.5f && bLeftKick == false)
+            bLeftKick = true;
+
+        // Hit detecion for when attacking
         if (curAttack != EAttackType.None)
         {
             //Creates hit box (uses pos and size from array)

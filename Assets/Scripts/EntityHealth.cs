@@ -30,6 +30,9 @@ public class EntityHealth : MonoBehaviour
 
     // Stun 
     public float resetTime = 0;
+
+    // Death
+    public float deathTime = 0;
     
     // Sets damage state to neutral
     public EDamageState state = EDamageState.Neutral;
@@ -67,11 +70,17 @@ public class EntityHealth : MonoBehaviour
         // Timer for when stun state reverts back to neutral state
         if (Time.time > resetTime && state == EDamageState.Stun)
             state = EDamageState.Neutral;
+
+        if (Time.time > deathTime && state == EDamageState.Death)
+            Destroy(gameObject);
     }
 
     // Death state
     public virtual void Death()
     {
-        Destroy(gameObject);
+
+        state = EDamageState.Death;
+
+        deathTime = Time.time + 2;
     }
 }
