@@ -16,6 +16,7 @@ public enum EDamageState
 {
     Neutral,
     Stun,
+    KnockBack,
     KnockDown,
     Death,
     Block,
@@ -54,6 +55,7 @@ public class EntityHealth : MonoBehaviour
         if (health <= 0 || state > EDamageState.Stun)
             return;
 
+        Debug.Log("stun" + health);
         state = EDamageState.Stun;
 
         resetTime = Time.time + 1;
@@ -62,10 +64,12 @@ public class EntityHealth : MonoBehaviour
 
     void Update()
     {
+        // Timer for when stun state reverts back to neutral state
         if (Time.time > resetTime && state == EDamageState.Stun)
             state = EDamageState.Neutral;
     }
 
+    // Death state
     public virtual void Death()
     {
         Destroy(gameObject);

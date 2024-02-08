@@ -200,7 +200,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.24031101
+      - time: 0.23060231
         functionName: StartLPunch
         data: 
         objectReferenceParameter: {instanceID: 0}
