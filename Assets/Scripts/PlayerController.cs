@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public enum EAttackType
 {
     None,
+    Punch,
+    Kick,
     LPunch,
     RPunch,
     LKick,
@@ -42,10 +44,14 @@ public class PlayerController : MonoBehaviour
     // Amount of attacks that have been performed
     private int attackCounter = 0;
 
+    private bool bLeftPunch = false;
+
     private Animator animator;
 
     //Hitbox positions array (use Blender coords)
     static Vector3[] HitBoxPositions = new Vector3[] {
+        (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Punch
+        (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Kick
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Left Punch
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Right Punch
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Left Kick
@@ -54,6 +60,8 @@ public class PlayerController : MonoBehaviour
 
     //Hitbox sizes array (use Blender size /2)
     static Vector3[] HitBoxSizes = new Vector3[] {
+        new Vector3 (0.21f, 0.21f, 0.37f), // Punch
+        new Vector3 (0.21f, 0.21f, 0.37f), // Kick
         new Vector3 (0.21f, 0.21f, 0.37f), // Left Punch
         new Vector3 (0.21f, 0.21f, 0.37f), // Right Punch
         new Vector3 (0.21f, 0.21f, 0.37f), // Left Kick
@@ -89,6 +97,28 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("jumped");
         }
     }
+
+    public void Punch(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            if (bLeftPunch)
+                animator.CrossFadeInFixedTime("Left Punch", 0);
+            else
+                animator.CrossFadeInFixedTime("Right Punch", 0);
+
+            bLeftPunch = !bLeftPunch;
+        }
+
+    }
+    public void Kick(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            animator.CrossFadeInFixedTime("Kick", 0);
+        }
+
+    }
     public void LPunch(InputAction.CallbackContext context)
     {
         if (context.action.triggered)
@@ -122,6 +152,8 @@ public class PlayerController : MonoBehaviour
     }
 
     // Enables and disables attacks
+    public void StartPunch() { curAttack = EAttackType.Punch; attackCounter++; }
+    public void StartKick() { curAttack = EAttackType.Kick; attackCounter++; }
     public void StartLPunch() { curAttack = EAttackType.LPunch; attackCounter++; }
     public void StartRPunch() { curAttack = EAttackType.RPunch; attackCounter++; }
     public void StartLKick() { curAttack = EAttackType.LKick; attackCounter++; }
