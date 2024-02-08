@@ -252,4 +252,14 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("MoveSpeed", (new Vector2(move.x, move.z)).magnitude);
     }
+
+    // When player dies, they are no longer referenced
+    void OnDelete()
+    {
+        if (this == Player1)
+            Player1 = null;
+        if (this == Player2)
+            Player2 = null;
+    }
+
 }
