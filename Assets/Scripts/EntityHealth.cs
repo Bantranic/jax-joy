@@ -58,6 +58,9 @@ public class EntityHealth : MonoBehaviour
         if (health <= 0 || state > EDamageState.Stun)
             return;
 
+        //Knockback and 
+
+
         Debug.Log("stun" + health);
         state = EDamageState.Stun;
 
