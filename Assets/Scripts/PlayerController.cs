@@ -12,7 +12,8 @@ public enum EAttackType
     LPunch,
     RPunch,
     LKick,
-    RKick
+    RKick,
+    Charge
 }
 
 [RequireComponent(typeof(CharacterController))]
@@ -48,6 +49,18 @@ public class PlayerController : MonoBehaviour
     public bool bLeftPunch = false;
     public bool bLeftKick = true;
     float LastAttackTime = 0;
+
+
+    public float knockbackdistance;
+
+    //Combo varaibles
+    private int pCount = 0;
+    private int kCount = 0;
+    private float baseComboCount = 0;
+    private float ComboCount = 0;
+    private float comboTimeSet = 2;
+    private float comboTime = 0;
+    public float comboDuration = 2;
 
     private Animator animator;
 
@@ -103,63 +116,95 @@ public class PlayerController : MonoBehaviour
 
     public void Punch(InputAction.CallbackContext context)
     {
+        /* if (context.action.triggered)
+         {
+            UnityEngine.Debug.Log("Punch1");
+            if (bLeftPunch)
+                 animator.CrossFadeInFixedTime("Punch1", 0);
+             else
+                 animator.CrossFadeInFixedTime("Punch2", 0);
+
+             bLeftPunch = !bLeftPunch;
+
+             LastAttackTime = Time.time;
+         }*/
+
+        
         if (context.action.triggered)
         {
-            if (bLeftPunch)
-                animator.CrossFadeInFixedTime("Left Punch", 0);
-            else
-                animator.CrossFadeInFixedTime("Right Punch", 0);
+            ComboCount += 1;
+            pCount += 1;
 
-            bLeftPunch = !bLeftPunch;
+
+            if (pCount == 1 && kCount == 0) 
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("Punch1");// calls animation condition
+                UnityEngine.Debug.Log("PUnch1");
+                
+            }
+            else if(pCount == 2 && kCount == 0) ////Trigger punch 3
+            {
+                comboTime = comboTimeSet;
+                animator.SetTrigger("Punch2");
+                UnityEngine.Debug.Log("PUnch2");
+                
+
+            }
+            else if(pCount == 3 && kCount == 0) //Trigger punch 3
+            {
+                comboTime = comboTimeSet;
+                animator.SetTrigger("Punch3");
+                UnityEngine.Debug.Log("PUnch2");
+                
+
+            }
+            //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
+
 
             LastAttackTime = Time.time;
+
+
         }
 
     }
+
     public void Kick(InputAction.CallbackContext context)
     {
+        ComboCount += 1;
+        kCount += 1;
+
         if (context.action.triggered)
         {
-            if (bLeftKick)
-                animator.CrossFadeInFixedTime("Left Kick", 0);
-            else
-                animator.CrossFadeInFixedTime("Right Kick", 0);
+            if (pCount == 0 && kCount == 2)
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("Kick1");// calls animation condition
+                UnityEngine.Debug.Log("Kick1");
 
-            bLeftKick = !bLeftKick;
+            }
+            else if(pCount == 2 && kCount == 2) 
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("Kick2");// calls animation condition
+                UnityEngine.Debug.Log("Kick2");
+            }
+            
 
             LastAttackTime = Time.time;
         }
 
     }
-    public void LPunch(InputAction.CallbackContext context)
+   
+    public void Charge(InputAction.CallbackContext context) 
     {
-        //if (context.action.triggered)
-        //{
-        //   animator.CrossFadeInFixedTime("Left Punch",0);
-        //}
+        if (context.action.triggered) 
+        {
+            UnityEngine.Debug.Log("Charge");
+        
+        }
+        
 
-    }
-    public void RPunch(InputAction.CallbackContext context)
-    {
-        //if (context.action.triggered)
-        //{
-        //    animator.CrossFadeInFixedTime("Right Punch", 0);
-        //}
-
-    }
-    public void LKick(InputAction.CallbackContext context)
-    {
-        //if (context.action.triggered)
-        //{
-        //    animator.CrossFadeInFixedTime("Left Kick", 0);
-        //}
-    }
-    public void RKick(InputAction.CallbackContext context)
-    {
-        //if (context.action.triggered)
-        //{
-        //    animator.CrossFadeInFixedTime("Right Kick", 0);
-        //}
 
     }
 
@@ -175,13 +220,26 @@ public class PlayerController : MonoBehaviour
     // Hit detection for attacks
     void UpdateAttacks ()
     {
+
+
+        //COUNT IF STATEMENTS ADD CONTEXT TO-DO
+        if(comboTime > 0) 
+        {
+            comboTime -= comboDuration * Time.deltaTime;
+        }
+        else if (comboTime <= 0) 
+        {
+            pCount = 0;
+            kCount = 0;
+        }
+
+        //UnityEngine.Debug.Log("COMBO TIME = " + comboTime);
+
         // Makes right punch first attack
-        if (Time.time > LastAttackTime + 0.5f && bLeftPunch == true)
+        if (Time.time > LastAttackTime + 0.5f)
             bLeftPunch = false;
 
-        // Makes right kick first attack
-        if (Time.time > LastAttackTime + 0.5f && bLeftKick == false)
-            bLeftKick = true;
+       
 
         // Hit detecion for when attacking
         if (curAttack != EAttackType.None)
@@ -201,13 +259,37 @@ public class PlayerController : MonoBehaviour
                     if (Health == null)
                         continue;
 
-                    // Applies damage and stuns, unless damage has already been dealt
-                    if (Health.lastAttackID != attackCounter)
+                    //Check if the collider of the object has the enemy tags
+                    // if yes, then inflict damage and knockback to said enemy
+                    if (Health.CompareTag("Enemy")) 
                     {
-                        Health.lastAttackID = attackCounter;
+                        UnityEngine.Debug.Log("HIT");
+
+
+                        //Apply Damage
                         Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
                         Health.Stun();
+
+                        //Calculate kncokback
+                        Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
+
+                        //Apply kncokback force
+                        Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
+                        if (enemy_Controller != null) 
+                        {
+                            enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance);
+                        }
+                    
                     }
+                    // Applies damage and stuns, unless damage has already been dealt
+                   /* if (Health.lastAttackID != attackCounter)
+                    {
+                        Vector3 selfPosition = transform.localPosition;
+
+                        Health.lastAttackID = attackCounter;
+                        Health.ApplyDamage(20, gameObject,selfPosition, EDamageType.StrongFist);
+                        Health.Stun();
+                    }*/
                 }
             }
 

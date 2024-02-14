@@ -21,6 +21,7 @@ public enum EDamageState
     Death,
     Block,
     Roll,
+    attack,
 }
 
 public class EntityHealth : MonoBehaviour
@@ -40,10 +41,23 @@ public class EntityHealth : MonoBehaviour
     // Checking if attack has been done
     public int lastAttackID = 0;
 
+    //How strong the knockback is
+    public float knockBackForce;
+
 
     // Tells player how much damage something took
     public virtual float ApplyDamage(float damage, GameObject causer, EDamageType type)
     {
+        //Vector3 currentposition = transform.position;
+        Debug.Log("HTI");
+       // currentposition += currentposition +  new Vector3(50, 50, 50);
+
+        //Vector3 direction = (position - transform.position).normalized;
+
+       // Vector3 knockback = direction * knockBackForce;
+
+       // transform.localPosition += knockback; 
+
         health -= damage;
         if (health <= 0)
         {

@@ -98,6 +98,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Charge"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3fdc9e0-c638-408a-9f6b-04db32b118d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -375,6 +384,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Kick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4256e345-5450-485f-80da-48fe7bd6e39f"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Charge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -424,6 +444,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_PunchR = m_Player.FindAction("PunchR", throwIfNotFound: true);
         m_Player_KickL = m_Player.FindAction("KickL", throwIfNotFound: true);
         m_Player_KickR = m_Player.FindAction("KickR", throwIfNotFound: true);
+        m_Player_Charge = m_Player.FindAction("Charge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -493,6 +514,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PunchR;
     private readonly InputAction m_Player_KickL;
     private readonly InputAction m_Player_KickR;
+    private readonly InputAction m_Player_Charge;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -505,6 +527,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @PunchR => m_Wrapper.m_Player_PunchR;
         public InputAction @KickL => m_Wrapper.m_Player_KickL;
         public InputAction @KickR => m_Wrapper.m_Player_KickR;
+        public InputAction @Charge => m_Wrapper.m_Player_Charge;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -538,6 +561,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @KickR.started += instance.OnKickR;
             @KickR.performed += instance.OnKickR;
             @KickR.canceled += instance.OnKickR;
+            @Charge.started += instance.OnCharge;
+            @Charge.performed += instance.OnCharge;
+            @Charge.canceled += instance.OnCharge;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -566,6 +592,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @KickR.started -= instance.OnKickR;
             @KickR.performed -= instance.OnKickR;
             @KickR.canceled -= instance.OnKickR;
+            @Charge.started -= instance.OnCharge;
+            @Charge.performed -= instance.OnCharge;
+            @Charge.canceled -= instance.OnCharge;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -620,5 +649,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnPunchR(InputAction.CallbackContext context);
         void OnKickL(InputAction.CallbackContext context);
         void OnKickR(InputAction.CallbackContext context);
+        void OnCharge(InputAction.CallbackContext context);
     }
 }

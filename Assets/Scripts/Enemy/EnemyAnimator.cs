@@ -11,7 +11,7 @@ public class EnemyAnimator : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         EnemyHealth = GetComponent<EntityHealth>();
     }
