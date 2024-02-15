@@ -16,6 +16,8 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
     private Animator animator;
 
+    public GameObject hitbox;
+
     GameObject[] players;
 
     //Patrolling 
@@ -162,7 +164,22 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         alreadyAttacked = false;
 
     }
-   
+
+    // Called to activate the hitbox at the start of the attack animation
+    public void ActivateHitbox()
+    {
+        hitbox.SetActive(true);
+    }
+
+    // Called to deactivate the hitbox at the end of the attack animation
+    public void DeactivateHitbox()
+    {
+        hitbox.SetActive(false);
+    }
+
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -177,6 +194,23 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         else 
         {
             agent.SetDestination(transform.localPosition);
+        }
+
+
+        //Checks if animation is playing
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) 
+        {
+            // Determine when to activate/deactivate the hitbox based on animation time
+            float animationtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+
+            if(animationtime >= 0.2f && animationtime <= 0.8f) 
+            {
+            
+            
+            }
+
+        
         }
     }
 
