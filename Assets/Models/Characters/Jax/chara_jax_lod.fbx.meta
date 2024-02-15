@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: idle
+      name: jax_idle
       takeName: skeleton_lowjax|idle
       internalID: -4595888467089027787
       firstFrame: 0
@@ -60,7 +60,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: jax
+      name: jax_pose
       takeName: skeleton_lowjax|Jax
       internalID: 401109771080794267
       firstFrame: 0
@@ -71,7 +71,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -89,7 +89,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: kick_l
+      name: jax_kick_l
       takeName: skeleton_lowjax|kick_l
       internalID: 3494154316935412283
       firstFrame: 0
@@ -139,7 +139,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: kick_r
+      name: jax_kick_r
       takeName: skeleton_lowjax|kick_r
       internalID: -6163999055770422534
       firstFrame: 0
@@ -189,7 +189,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: lively_idle
+      name: jax_lively_idle
       takeName: skeleton_lowjax|lively_idle
       internalID: 3038930836495747541
       firstFrame: 0
@@ -200,7 +200,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -218,7 +218,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: punch_l
+      name: jax_punch_l
       takeName: skeleton_lowjax|punch_l
       internalID: -6181976832910564066
       firstFrame: 0
@@ -268,7 +268,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: punch_r
+      name: jax_punch_r
       takeName: skeleton_lowjax|punch_r
       internalID: 4155621115466800953
       firstFrame: 0
@@ -318,7 +318,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: run
+      name: jax_run
       takeName: skeleton_lowjax|run
       internalID: 3492844681024377867
       firstFrame: 0
@@ -347,7 +347,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: block
+      name: jax_block
       takeName: skeleton_lowjax|block
       internalID: 1006710300873094536
       firstFrame: 0
@@ -358,7 +358,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -376,7 +376,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: death
+      name: jax_death
       takeName: skeleton_lowjax|death
       internalID: -5503661763567707342
       firstFrame: 0
@@ -405,7 +405,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: stun
+      name: jax_stun
       takeName: skeleton_lowjax|stun
       internalID: -6717801433155191901
       firstFrame: 0
