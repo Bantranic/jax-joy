@@ -155,11 +155,18 @@ public class PlayerController : MonoBehaviour
             {
                 comboTime = comboTimeSet;
                 animator.SetTrigger("Punch3");
-                UnityEngine.Debug.Log("PUnch2");
+                UnityEngine.Debug.Log("PUnch3");
                 
 
             }
-            //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
+            else if (pCount == 1 && kCount == 2 && gameObject.name == ("Player 2"))
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("Punch1");// calls animation condition
+                UnityEngine.Debug.Log("Punch3");
+
+            }
+            UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
 
 
             LastAttackTime = Time.time;
@@ -171,12 +178,15 @@ public class PlayerController : MonoBehaviour
 
     public void Kick(InputAction.CallbackContext context)
     {
-        ComboCount += 1;
-        kCount += 1;
+        
 
         if (context.action.triggered)
         {
-            if (pCount == 0 && kCount == 2)
+            ComboCount += 1;
+            kCount += 1;
+
+            UnityEngine.Debug.Log("Kicking");
+            if (pCount == 0 && kCount == 1)
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("Kick1");// calls animation condition
@@ -189,20 +199,49 @@ public class PlayerController : MonoBehaviour
                 animator.SetTrigger("Kick2");// calls animation condition
                 UnityEngine.Debug.Log("Kick2");
             }
-            
+            else if(pCount == 0 && kCount == 2 && gameObject.name == ("Player 2")) 
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("Kick2");// calls animation condition
+                UnityEngine.Debug.Log("Kick2");
+
+            }
+            UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
 
             LastAttackTime = Time.time;
         }
 
     }
    
-    public void Charge(InputAction.CallbackContext context) 
+    public void Block(InputAction.CallbackContext context) 
     {
+        UnityEngine.Debug.Log("BLOCK");
+        switch (context.phase)
+        {
+
+            case InputActionPhase.Performed:
+                // Trigger block action when input is performed
+                UnityEngine.Debug.Log("Switch BLOCK");
+                animator.SetTrigger("Block");
+            break;
+           case InputActionPhase.Canceled:
+            // Release block action when input is canceled (released)
+            // Add any additional logic here if needed
+            break;
+
+        }
+
+
         if (context.action.triggered) 
         {
-            UnityEngine.Debug.Log("Charge");
+            
+
+           // animator.SetTrigger("Block");// calls animation condition
+           // UnityEngine.Debug.Log("Blocking");
+           
         
         }
+        
         
 
 
@@ -220,7 +259,10 @@ public class PlayerController : MonoBehaviour
     // Hit detection for attacks
     void UpdateAttacks ()
     {
-
+        if (Keyboard.current.kKey.isPressed) 
+        {
+            animator.SetTrigger("Block");
+        }
 
         //COUNT IF STATEMENTS ADD CONTEXT TO-DO
         if(comboTime > 0) 
@@ -282,14 +324,14 @@ public class PlayerController : MonoBehaviour
                     
                     }
                     // Applies damage and stuns, unless damage has already been dealt
-                   /* if (Health.lastAttackID != attackCounter)
+                    if (Health.lastAttackID != attackCounter)
                     {
                         Vector3 selfPosition = transform.localPosition;
 
                         Health.lastAttackID = attackCounter;
-                        Health.ApplyDamage(20, gameObject,selfPosition, EDamageType.StrongFist);
+                        Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
                         Health.Stun();
-                    }*/
+                    }
                 }
             }
 

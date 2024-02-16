@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Damage types
 public enum EDamageType
@@ -26,6 +27,7 @@ public enum EDamageState
 
 public class EntityHealth : MonoBehaviour
 {
+
     // Entity health
     public float health = 100;
 
@@ -35,6 +37,8 @@ public class EntityHealth : MonoBehaviour
     // Death
     public float deathTime = 0;
     
+    //Player death cout
+    private int deathCount = 0;
     // Sets damage state to neutral
     public EDamageState state = EDamageState.Neutral;
     
@@ -59,7 +63,7 @@ public class EntityHealth : MonoBehaviour
        // transform.localPosition += knockback; 
 
         health -= damage;
-        if (health <= 0)
+        if (health <= 0 && gameObject.tag != "Player")
         {
             Death();
         }
@@ -71,8 +75,6 @@ public class EntityHealth : MonoBehaviour
         // Checks if health is greater than 0, then sets stun time and applies to entity
         if (health <= 0 || state > EDamageState.Stun)
             return;
-
-        //Knockback and 
 
 
         Debug.Log("stun" + health);
@@ -89,7 +91,44 @@ public class EntityHealth : MonoBehaviour
             state = EDamageState.Neutral;
 
         if (Time.time > deathTime && state == EDamageState.Death)
-            Destroy(gameObject);
+           // Destroy(gameObject);
+
+
+        if (health < 0)
+        {
+            health = 0;
+        }
+
+
+        if (state == EDamageState.Stun && gameObject.tag == "Player") 
+        {
+            PlayerController controller = gameObject.GetComponent<PlayerController>();
+            Animator animator = gameObject.GetComponent<Animator>();
+
+                animator.SetTrigger("Stun");
+                controller.enabled = false;
+               state = EDamageState.Neutral;
+
+      
+            
+            
+        
+        }
+
+
+        if(health == 0 && gameObject.tag == "Player") 
+        {
+            PlayerDeath();
+
+        }
+        else if(gameObject.tag == "Player")
+        {
+            PlayerController controller = gameObject.GetComponent<PlayerController>();
+            Animator animator = gameObject.GetComponent<Animator>();
+            controller.enabled = true;
+        }
+        
+        
     }
 
     // Death state
@@ -99,5 +138,35 @@ public class EntityHealth : MonoBehaviour
         state = EDamageState.Death;
 
         deathTime = Time.time + 2;
+    }
+
+    void PlayerDeath()
+    {
+        state = EDamageState.Death;
+
+        PlayerController controller = gameObject.GetComponent<PlayerController>();
+        Animator animator = gameObject.GetComponent<Animator>();
+
+        if (deathCount == 0)
+        {
+            controller.enabled = false;
+            animator.SetTrigger("Death");
+
+            Debug.Log(gameObject.name + " is Death");
+
+            deathCount += 1;
+        }
+
+        deathTime += 1 * Time.deltaTime;
+        if (deathTime >= 5) 
+        {
+            animator.SetTrigger("UnDeath");
+            deathCount = 0;
+            deathTime = 0;
+            controller.enabled = true;
+            health = 100;
+
+        }
+        
     }
 }

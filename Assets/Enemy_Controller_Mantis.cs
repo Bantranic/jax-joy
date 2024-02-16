@@ -147,7 +147,6 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             //all attack functionallity should go here
 
             //atacking action here
-            Debug.Log("Attacked");
             animator.SetTrigger("Attack");
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -155,7 +154,13 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             
         }
 
-        transform.LookAt(player);
+        // Calculate direction to the player
+        Vector3 directionToPlayer = playerPosition - transform.position;
+        directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
+
+        transform.rotation = Quaternion.LookRotation(directionToPlayer);
+        //transform.LookAt(player);
+     
 
     }
     private void ResetAttack()
@@ -204,10 +209,16 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             float animationtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
 
-            if(animationtime >= 0.2f && animationtime <= 0.8f) 
+            if(animationtime >= 0.1f && animationtime <= 0.8f) 
             {
+               // Debug.Log("hitbox on");
+                ActivateHitbox();
             
-            
+            }
+            else 
+            {
+                //Debug.Log("Hitbox off");
+                DeactivateHitbox();
             }
 
         
