@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
+    public GameObject blockHitBox;
     // Hitbox positions array (use Blender coords)
     static Vector3[] HitBoxPositions = new Vector3[] {
         (Vector3.forward * 0.89f) + (Vector3.up * 1.37f), // Punch
@@ -116,20 +117,7 @@ public class PlayerController : MonoBehaviour
 
     public void Punch(InputAction.CallbackContext context)
     {
-        /* if (context.action.triggered)
-         {
-            UnityEngine.Debug.Log("Punch1");
-            if (bLeftPunch)
-                 animator.CrossFadeInFixedTime("Punch1", 0);
-             else
-                 animator.CrossFadeInFixedTime("Punch2", 0);
-
-             bLeftPunch = !bLeftPunch;
-
-             LastAttackTime = Time.time;
-         }*/
-
-        
+     
         if (context.action.triggered)
         {
             ComboCount += 1;
@@ -166,7 +154,7 @@ public class PlayerController : MonoBehaviour
                 UnityEngine.Debug.Log("Punch3");
 
             }
-            UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
+            //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
 
 
             LastAttackTime = Time.time;
@@ -206,28 +194,32 @@ public class PlayerController : MonoBehaviour
                 UnityEngine.Debug.Log("Kick2");
 
             }
-            UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
+            //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
 
             LastAttackTime = Time.time;
         }
 
     }
    
-    public void Block(InputAction.CallbackContext context) 
+    public void Charge(InputAction.CallbackContext context) 
     {
         UnityEngine.Debug.Log("BLOCK");
+
         switch (context.phase)
         {
 
             case InputActionPhase.Performed:
+                animator = GetComponent<Animator>();
                 // Trigger block action when input is performed
-                UnityEngine.Debug.Log("Switch BLOCK");
-                animator.SetTrigger("Block");
-            break;
+               // UnityEngine.Debug.Log("Switch BLOCK");
+              //  animator.SetTrigger("Block");
+               // blockHitBox.SetActive(true);
+                break;
            case InputActionPhase.Canceled:
-            // Release block action when input is canceled (released)
-            // Add any additional logic here if needed
-            break;
+                // Release block action when input is released
+                // Add exit logical stufff here 
+               // blockHitBox.SetActive(false);
+                break;
 
         }
 
@@ -259,13 +251,25 @@ public class PlayerController : MonoBehaviour
     // Hit detection for attacks
     void UpdateAttacks ()
     {
-        if (Keyboard.current.kKey.isPressed) 
+        if (Input.GetButtonDown("Fire1") && gameObject.name == ("Player 1")) 
         {
             animator.SetTrigger("Block");
+            blockHitBox.SetActive(true);
+        }
+        else 
+        {
+            blockHitBox.SetActive(false);
         }
 
+
+        if (Keyboard.current.kKey.isPressed)
+        {
+            //animator.SetTrigger("Block");
+        }
+
+
         //COUNT IF STATEMENTS ADD CONTEXT TO-DO
-        if(comboTime > 0) 
+        if (comboTime > 0) 
         {
             comboTime -= comboDuration * Time.deltaTime;
         }
@@ -275,17 +279,16 @@ public class PlayerController : MonoBehaviour
             kCount = 0;
         }
 
-        //UnityEngine.Debug.Log("COMBO TIME = " + comboTime);
-
         // Makes right punch first attack
         if (Time.time > LastAttackTime + 0.5f)
             bLeftPunch = false;
 
-       
+        //UnityEngine.Debug.Log("PUNCH" + curAttack);
 
         // Hit detecion for when attacking
         if (curAttack != EAttackType.None)
         {
+            
             //Creates hit box (uses pos and size from array)
             Vector3 center = HitBoxPositions[(int)curAttack - 1];
             Vector3 size = HitBoxSizes[(int)curAttack - 1];
@@ -305,7 +308,7 @@ public class PlayerController : MonoBehaviour
                     // if yes, then inflict damage and knockback to said enemy
                     if (Health.CompareTag("Enemy")) 
                     {
-                        UnityEngine.Debug.Log("HIT");
+                        
 
 
                         //Apply Damage
@@ -380,10 +383,10 @@ public class PlayerController : MonoBehaviour
     // When player dies, they are no longer referenced
     void OnDelete()
     {
-        if (this == Player1)
+       /* if (this == Player1)
             Player1 = null;
         if (this == Player2)
-            Player2 = null;
+            Player2 = null;*/
     }
 
 }

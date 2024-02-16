@@ -145,11 +145,13 @@ public class EntityHealth : MonoBehaviour
         state = EDamageState.Death;
 
         PlayerController controller = gameObject.GetComponent<PlayerController>();
+        var Input = gameObject.GetComponent<PlayerInput>();
         Animator animator = gameObject.GetComponent<Animator>();
 
         if (deathCount == 0)
         {
             controller.enabled = false;
+            Input.enabled = false;
             animator.SetTrigger("Death");
 
             Debug.Log(gameObject.name + " is Death");
@@ -164,6 +166,7 @@ public class EntityHealth : MonoBehaviour
             deathCount = 0;
             deathTime = 0;
             controller.enabled = true;
+            Input.enabled = true;
             health = 100;
 
         }
