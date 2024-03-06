@@ -53,15 +53,8 @@ public class EntityHealth : MonoBehaviour
     public virtual float ApplyDamage(float damage, GameObject causer, EDamageType type)
     {
         //Vector3 currentposition = transform.position;
-        Debug.Log("HTI");
-       // currentposition += currentposition +  new Vector3(50, 50, 50);
-
-        //Vector3 direction = (position - transform.position).normalized;
-
-       // Vector3 knockback = direction * knockBackForce;
-
-       // transform.localPosition += knockback; 
-
+        Debug.Log("HIT");
+     
         health -= damage;
         if (health <= 0 && gameObject.tag != "Player")
         {
@@ -115,7 +108,7 @@ public class EntityHealth : MonoBehaviour
         
         }
 
-
+        //Only happens to the player gameobjects
         if(health == 0 && gameObject.tag == "Player") 
         {
             PlayerDeath();
@@ -150,8 +143,7 @@ public class EntityHealth : MonoBehaviour
 
         if (deathCount == 0)
         {
-            controller.enabled = false;
-            Input.enabled = false;
+            controller.isDead = true;
             animator.SetTrigger("Death");
 
             Debug.Log(gameObject.name + " is Death");
@@ -163,11 +155,11 @@ public class EntityHealth : MonoBehaviour
         if (deathTime >= 5) 
         {
             animator.SetTrigger("UnDeath");
+            controller.isDead = false;
+
+            health = 100;
             deathCount = 0;
             deathTime = 0;
-            controller.enabled = true;
-            Input.enabled = true;
-            health = 100;
 
         }
         

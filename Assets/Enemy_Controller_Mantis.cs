@@ -194,7 +194,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         //Debug.Log(state);
         //Debug.Log("Destinion = " + playerPosition);
         if (!playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Patroling();//if player is out of sight range 
-        else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Chasing();// If player is in sight range
+        else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral ) Chasing();// If player is in sight range
         else if (playerInSightRange && playerInAttackRange && health.state == EDamageState.Neutral) Attacking();// If player is in attack range
         else 
         {
@@ -230,15 +230,49 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         Debug.Log("HIT");
     }
 
-    public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance) 
+    public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance, float duration) 
     {
-        UnityEngine.Debug.Log("Knockback");
-        //calculate direction of kncokback
-        Vector3 knockback = KnockbackDirection * knockbackdistance;
-
-        // moves the enemy to knockback position
-        transform.position += knockback;
+        //UnityEngine.Debug.Log("Knockback");
+        // moves the enemy to knockback position by starting a corouttine
+        // The Coroutine loops until the elasped time set equal the duration set in the fuction,
+        // To increase the speed increase the knockback distance and to decrease the duration...decrease the duration.
+        StartCoroutine(Knockbackaction(KnockbackDirection, knockbackdistance, duration));
     
+    }
+
+    private IEnumerator Knockbackaction(Vector3 knockbackDirection, float knockbackDistance, float duration) 
+    {
+        //Save intial postion of the the enemy
+        Vector3 initialPosition = transform.position;
+
+        //Calculate target position, so target position = current positon + the direction times by the distance
+        Vector3 targetPosition = initialPosition + knockbackDirection * knockbackDistance;
+
+        // 
+        float elapsedTime = 0f;
+
+
+        //loop until elapsed time equal the duration
+        while(elapsedTime < duration) 
+        {
+
+            // Calculate the interpolation factor (0 to 1)
+            float time = elapsedTime / duration;
+
+
+            // alternate between initial and target positions
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, time);
+
+
+            elapsedTime += Time.deltaTime;
+
+            // until the end of the frame
+            yield return null;
+        }
+
+        // Ensure the enemy reaches the exact target position
+        transform.position = targetPosition;
+
     }
 
 }

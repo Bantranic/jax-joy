@@ -29,7 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private bool groundedPlayer;
     [SerializeField]
-    private float playerSpeed = 2.0f;
+    private float defaultPlayerSpeed;
+    private float playerSpeed;
     [SerializeField]
     private float jumpHeight = 1.0f;
     [SerializeField]
@@ -45,25 +46,32 @@ public class PlayerController : MonoBehaviour
     // Amount of attacks that have been performed
     private int attackCounter = 0;
 
-    // Sets up alternating attacks
-    public bool bLeftPunch = false;
-    public bool bLeftKick = true;
-    float LastAttackTime = 0;
 
+    public bool isDead = false;
 
-    public float knockbackdistance;
+    //Knockback Variables
+    private float knockbackdistance;
+    public float defualtKnockbackDistance;
 
-    //Combo varaibles
-    private int pCount = 0;
-    private int kCount = 0;
+    //Combo variables
+    private int LCount = 0;
+    private int HCount = 0;
     private float baseComboCount = 0;
     private float ComboCount = 0;
     private float comboTimeSet = 2;
     private float comboTime = 0;
     public float comboDuration = 2;
 
-    private Animator animator;
+    //CHARGE ATTACK VARIABLES
+    private float chargeCount = 0;
+    private float chargeLow = 10;
+    private float chargeMid = 20;
+    private float chargeHigh = 40;
+    private bool isCharging = false; 
 
+
+    private Animator animator;
+    //Blocking hitbox object
     public GameObject blockHitBox;
     // Hitbox positions array (use Blender coords)
     static Vector3[] HitBoxPositions = new Vector3[] {
@@ -90,7 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = gameObject.GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-
+        blockHitBox.SetActive(false);
         if (Player1 == null)
             Player1 = this;
         else
@@ -115,124 +123,179 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Punch(InputAction.CallbackContext context)
+    public void LightAttack(InputAction.CallbackContext context)
     {
-     
+        knockbackdistance = defualtKnockbackDistance; //sets knockback distance for punches
+
+
         if (context.action.triggered)
         {
-            ComboCount += 1;
-            pCount += 1;
+            ComboCount += 1;//adds to overall combo count
+            LCount += 1;// holds number of punches in combo
+
+            blockHitBox.SetActive(false);// set block to false
 
 
-            if (pCount == 1 && kCount == 0) 
+            //JAX ATTACKS
+            if (LCount == 1 && HCount == 0) //Trigger punch 1
             {
                 comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("Punch1");// calls animation condition
-                UnityEngine.Debug.Log("PUnch1");
+                animator.SetTrigger("LightA1");// calls animation condition
+               
                 
             }
-            else if(pCount == 2 && kCount == 0) ////Trigger punch 3
+            else if(LCount == 2 && HCount == 0 && gameObject.name == ("Player 1")) //Trigger punch 2
             {
-                comboTime = comboTimeSet;
-                animator.SetTrigger("Punch2");
-                UnityEngine.Debug.Log("PUnch2");
-                
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("LightA2"); // calls animation condition
+
 
             }
-            else if(pCount == 3 && kCount == 0) //Trigger punch 3
+            else if(LCount == 3 && HCount == 0 && gameObject.name == ("Player 1")) //Trigger punch 3
             {
-                comboTime = comboTimeSet;
-                animator.SetTrigger("Punch3");
-                UnityEngine.Debug.Log("PUnch3");
-                
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("LightA3");// calls animation condition
+
+
 
             }
-            else if (pCount == 1 && kCount == 2 && gameObject.name == ("Player 2"))
+
+
+            //JOY LightATTACKS
+            if (LCount == 1 && HCount == 0 && gameObject.name == ("Player 2"))
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("Punch1");// calls animation condition
                 UnityEngine.Debug.Log("Punch3");
 
             }
-            //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
+            else if(LCount == 2 && HCount == 0 && gameObject.name == ("Player 2")) 
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("LightA2");// calls animation condition
+                UnityEngine.Debug.Log("LightA2");
 
+            }
+            else if(LCount == 3 && HCount == 0 && gameObject.name == ("Player 2")) 
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("LightA3");// calls animation condition
+                UnityEngine.Debug.Log("LightA3");
 
-            LastAttackTime = Time.time;
-
-
+            }
         }
 
     }
 
-    public void Kick(InputAction.CallbackContext context)
+   
+
+    public void HeavyAttack(InputAction.CallbackContext context)
     {
-        
+        knockbackdistance = defualtKnockbackDistance; //sets knockback distance for Kickes
 
         if (context.action.triggered)
         {
             ComboCount += 1;
-            kCount += 1;
+            HCount += 1;
+            blockHitBox.SetActive(false);
 
+
+            //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
             UnityEngine.Debug.Log("Kicking");
-            if (pCount == 0 && kCount == 1)
+            if (LCount == 0 && HCount == 1 || LCount == 2 && HCount == 1)
             {
                 comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("Kick1");// calls animation condition
-                UnityEngine.Debug.Log("Kick1");
+                animator.SetTrigger("HeavyA1");// calls animation condition
+                //UnityEngine.Debug.Log("HeavyA1");
 
             }
-            else if(pCount == 2 && kCount == 2) 
-            {
-                comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("Kick2");// calls animation condition
-                UnityEngine.Debug.Log("Kick2");
-            }
-            else if(pCount == 0 && kCount == 2 && gameObject.name == ("Player 2")) 
-            {
-                comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("Kick2");// calls animation condition
-                UnityEngine.Debug.Log("Kick2");
 
-            }
+            //JOY HEAVYATTACKS Go here in future
+
+
             //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
 
-            LastAttackTime = Time.time;
+            
         }
 
     }
-   
-    public void Charge(InputAction.CallbackContext context) 
+
+    public void Charge(InputAction.CallbackContext context)
     {
-        UnityEngine.Debug.Log("BLOCK");
+        switch (context.phase)
+        {
+
+            case InputActionPhase.Performed:
+
+                // Trigger block action when input is performed
+                isCharging = true;
+                break;
+            case InputActionPhase.Canceled:
+                // Release block action when input is released
+                // Add exit logical stufff here 
+
+                
+                UnityEngine.Debug.Log("Holding off = " + chargeCount);
+                if (chargeCount >= chargeHigh)
+                {
+                    knockbackdistance = 40; //sets knockback distance for Kickes
+                    UnityEngine.Debug.Log("CHARGE ATTACK High" + chargeCount);
+
+
+                }
+                else if (chargeCount >= chargeMid)
+                {
+                    knockbackdistance = 30; //sets knockback distance for Kickes
+                    UnityEngine.Debug.Log("CHARGE ATTACK Mid" + chargeCount);
+
+                }
+              
+                else if(chargeCount >= chargeLow)
+                {
+                    knockbackdistance = 20; //sets knockback distance for Kickes
+                    UnityEngine.Debug.Log("CHARGE ATTACK Low = " + chargeCount);
+
+
+
+                }
+
+                //Have an effects for charging attack deactive here
+
+                isCharging = false;//Stops charge count going up
+
+
+                break;
+
+        }
+        
+
+    }
+
+    public void Block(InputAction.CallbackContext context) 
+    {
+        
 
         switch (context.phase)
         {
 
             case InputActionPhase.Performed:
-                animator = GetComponent<Animator>();
+               
                 // Trigger block action when input is performed
-               // UnityEngine.Debug.Log("Switch BLOCK");
-              //  animator.SetTrigger("Block");
-               // blockHitBox.SetActive(true);
+              UnityEngine.Debug.Log("Switch BLOCK");
+              animator.SetTrigger("Block");
+               blockHitBox.SetActive(true);
                 break;
            case InputActionPhase.Canceled:
                 // Release block action when input is released
                 // Add exit logical stufff here 
-               // blockHitBox.SetActive(false);
-                break;
+               blockHitBox.SetActive(false);
+               animator.SetTrigger("UnBlock");
+               UnityEngine.Debug.Log("OFF");
+               break;
 
         }
 
 
-        if (context.action.triggered) 
-        {
-            
-
-           // animator.SetTrigger("Block");// calls animation condition
-           // UnityEngine.Debug.Log("Blocking");
-           
-        
-        }
         
         
 
@@ -251,37 +314,40 @@ public class PlayerController : MonoBehaviour
     // Hit detection for attacks
     void UpdateAttacks ()
     {
-        if (Input.GetButtonDown("Fire1") && gameObject.name == ("Player 1")) 
-        {
-            animator.SetTrigger("Block");
-            blockHitBox.SetActive(true);
-        }
-        else 
-        {
-            blockHitBox.SetActive(false);
-        }
-
-
-        if (Keyboard.current.kKey.isPressed)
-        {
-            //animator.SetTrigger("Block");
-        }
-
-
-        //COUNT IF STATEMENTS ADD CONTEXT TO-DO
+        //if combo time is greater than 0 then
+        // take away comboduration from combo time
         if (comboTime > 0) 
         {
             comboTime -= comboDuration * Time.deltaTime;
-        }
-        else if (comboTime <= 0) 
+        }//else if combo time is less than or equal to 0 reset combo count
+        else if (comboTime <= 0)   
         {
-            pCount = 0;
-            kCount = 0;
+            LCount = 0;
+            HCount = 0;
+            ComboCount = 0;
+        }
+
+
+        //statement holds charging time for charge attack
+        // Longer the button is held the greater the attack damage and knockback
+        if (isCharging == true)
+        {
+            chargeCount += 1;
+            //UnityEngine.Debug.Log("IS_CHARGING" + chargeCount);
+        }
+        else
+        {
+            chargeCount = 0;
+        }
+
+        if (chargeCount >= chargeHigh)
+        {
+            chargeCount = chargeHigh;
         }
 
         // Makes right punch first attack
-        if (Time.time > LastAttackTime + 0.5f)
-            bLeftPunch = false;
+        //if (Time.time > LastAttackTime + 0.5f)
+        //bLeftPunch = false;
 
         //UnityEngine.Debug.Log("PUNCH" + curAttack);
 
@@ -322,7 +388,8 @@ public class PlayerController : MonoBehaviour
                         Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
                         if (enemy_Controller != null) 
                         {
-                            enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance);
+                            //calls the appltknockback function located in the Enemy_mantis_controller script
+                            enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
                         }
                     
                     }
@@ -343,10 +410,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    void Update()
+    void UpdateMovement() 
     {
-        UpdateAttacks ();
+
 
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
@@ -356,6 +422,18 @@ public class PlayerController : MonoBehaviour
 
         // Checks if player is grounded for animator
         animator.SetBool("grounded", groundedPlayer);
+
+
+        if(ComboCount!= 0) 
+        {
+            UnityEngine.Debug.Log("SLOW");
+            playerSpeed = 0.3f;
+        }
+        else 
+        {
+            UnityEngine.Debug.Log("NotSLOW");
+            playerSpeed = defaultPlayerSpeed;
+        }
 
         // Turns player speed into m/s
         Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
@@ -378,7 +456,26 @@ public class PlayerController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
 
         animator.SetFloat("MoveSpeed", (new Vector2(move.x, move.z)).magnitude);
+
+
+
     }
+
+    void Update()
+    {
+
+        if(isDead != true) 
+        {
+            UpdateAttacks();
+            UpdateMovement();
+
+        }
+      
+ 
+
+    }
+
+
 
     // When player dies, they are no longer referenced
     void OnDelete()
