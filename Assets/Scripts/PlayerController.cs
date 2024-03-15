@@ -426,12 +426,12 @@ public class PlayerController : MonoBehaviour
 
         if(ComboCount!= 0) 
         {
-            UnityEngine.Debug.Log("SLOW");
+            //UnityEngine.Debug.Log("SLOW");
             playerSpeed = 0.3f;
         }
         else 
         {
-            UnityEngine.Debug.Log("NotSLOW");
+            //UnityEngine.Debug.Log("NotSLOW");
             playerSpeed = defaultPlayerSpeed;
         }
 

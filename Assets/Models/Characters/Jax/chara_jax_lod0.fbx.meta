@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: idle
+      name: jax_idle
       takeName: skeleton_jax|idle
       internalID: 1881267242237537235
       firstFrame: 0
@@ -60,7 +60,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: k1
+      name: jax_k1
       takeName: skeleton_jax|k1
       internalID: -1486588142484148941
       firstFrame: 0
@@ -89,7 +89,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: kk2
+      name: jax_kk2
       takeName: skeleton_jax|kk2
       internalID: -3365374926037365777
       firstFrame: 0
@@ -118,7 +118,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: p1
+      name: jax_p1
       takeName: skeleton_jax|p1
       internalID: -2377938655800884694
       firstFrame: 0
@@ -147,7 +147,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: pp2
+      name: jax_pp2
       takeName: skeleton_jax|pp2
       internalID: -63079608816578443
       firstFrame: 0
@@ -176,7 +176,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: run
+      name: jax_run
       takeName: skeleton_jax|run
       internalID: 7269861697339719227
       firstFrame: 0
