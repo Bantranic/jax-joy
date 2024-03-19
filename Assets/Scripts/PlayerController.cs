@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
 
     public bool isDead = false;
+    private bool isKnockback = false;
 
     //Knockback Variables
     private float knockbackdistance;
@@ -62,6 +63,9 @@ public class PlayerController : MonoBehaviour
     private float comboTime = 0;
     public float comboDuration = 2;
 
+    public float homingStrength = 2;
+    private Vector3 RaycastOffset =  new Vector3(0,0.5f,0);
+    private bool isHoming = false;
     //CHARGE ATTACK VARIABLES
     private float chargeCount = 0;
     private float chargeLow = 10;
@@ -123,10 +127,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+  
+
     public void LightAttack(InputAction.CallbackContext context)
     {
         knockbackdistance = defualtKnockbackDistance; //sets knockback distance for punches
 
+        //UnityEngine.Debug.Log("LightA = " + LCount + " HeravyA =" + HCount);
 
         if (context.action.triggered)
         {
@@ -135,23 +142,75 @@ public class PlayerController : MonoBehaviour
 
             blockHitBox.SetActive(false);// set block to false
 
+            
+
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), transform.forward, out hit))
+            {
+                UnityEngine.Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.green);
+                UnityEngine.Debug.Log("RaycastHit");
+                //Check for enemies
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    UnityEngine.Debug.Log("EnemyHit");
+                    isHoming = true;
+                    //Calculate the direction towards enemies
+                    Vector3 directionToTarget = (hit.point - transform.position).normalized;
+
+                    //Apply homing effects
+                    transform.position += directionToTarget * Mathf.Min(homingStrength, Vector3.Distance(transform.position, hit.point));
+
+                    
+                    //Perform action(dependent on if enemy is hit in raycast)
+                    LightAttackAction();
+
+
+                }
+                else
+                {
+                    //What happens when no enemy is infront of the player
+                    LightAttackAction();
+                }
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+        }
+
+    
+   void LightAttackAction() 
+    {
 
             //JAX ATTACKS
             if (LCount == 1 && HCount == 0) //Trigger punch 1
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA1");// calls animation condition
-               
-                
+
+
             }
-            else if(LCount == 2 && HCount == 0 && gameObject.name == ("Player 1")) //Trigger punch 2
+            else if (LCount == 2 && HCount == 0) //Trigger punch 2
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA2"); // calls animation condition
 
 
             }
-            else if(LCount == 3 && HCount == 0 && gameObject.name == ("Player 1")) //Trigger punch 3
+            else if (LCount == 3 && HCount == 0) //Trigger punch 3
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA3");// calls animation condition
@@ -169,14 +228,14 @@ public class PlayerController : MonoBehaviour
                 UnityEngine.Debug.Log("Punch3");
 
             }
-            else if(LCount == 2 && HCount == 0 && gameObject.name == ("Player 2")) 
+            else if (LCount == 2 && HCount == 0 && gameObject.name == ("Player 2"))
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA2");// calls animation condition
                 UnityEngine.Debug.Log("LightA2");
 
             }
-            else if(LCount == 3 && HCount == 0 && gameObject.name == ("Player 2")) 
+            else if (LCount == 3 && HCount == 0 && gameObject.name == ("Player 2"))
             {
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA3");// calls animation condition
@@ -185,9 +244,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-    }
 
-   
+    }
 
     public void HeavyAttack(InputAction.CallbackContext context)
     {
@@ -302,6 +360,36 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void HomingFunction() 
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), transform.forward, out hit))
+        {
+            UnityEngine.Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.green);
+            
+            //Check for enemies
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                UnityEngine.Debug.Log("HOMING_FUCTION_ON");
+                //Calculate the direction towards enemies
+                Vector3 directionToTarget = (hit.point - transform.position).normalized;
+
+                //Apply homing effects
+                transform.position += directionToTarget * Mathf.Min(homingStrength, Vector3.Distance(transform.position, hit.point));
+
+
+                //Perform action(dependent on if enemy is hit in raycast)
+                //LightAttackAction();
+
+
+            }
+          
+        }
+
+        isHoming = false;
+    }
+
+
     // Enables and disables attacks
     public void StartPunch() { curAttack = EAttackType.Punch; attackCounter++; }
     public void StartKick() { curAttack = EAttackType.Kick; attackCounter++; }
@@ -372,9 +460,9 @@ public class PlayerController : MonoBehaviour
 
                     //Check if the collider of the object has the enemy tags
                     // if yes, then inflict damage and knockback to said enemy
-                    if (Health.CompareTag("Enemy")) 
+                    if (Health.CompareTag("Enemy"))
                     {
-                        
+
 
 
                         //Apply Damage
@@ -386,12 +474,12 @@ public class PlayerController : MonoBehaviour
 
                         //Apply kncokback force
                         Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
-                        if (enemy_Controller != null) 
+                        if (enemy_Controller != null)
                         {
                             //calls the appltknockback function located in the Enemy_mantis_controller script
                             enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
                         }
-                    
+
                     }
                     // Applies damage and stuns, unless damage has already been dealt
                     if (Health.lastAttackID != attackCounter)
@@ -402,6 +490,29 @@ public class PlayerController : MonoBehaviour
                         Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
                         Health.Stun();
                     }
+
+                    if (Health.CompareTag("Player"))
+                    {
+
+
+
+                        //Apply Damage
+                        Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
+                        Health.Stun();
+
+                        //Calculate kncokback
+                        Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
+
+                        //Apply kncokback force
+                        Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
+                        if (enemy_Controller != null)
+                        {
+                            //calls the appltknockback function located in the Enemy_mantis_controller script
+                            enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
+                        }
+
+                    }
+                    
                 }
             }
 
@@ -464,16 +575,26 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if(isDead != true) 
+
+
+        UnityEngine.Debug.DrawRay(transform.position + new Vector3(0, 0.5f, 0), transform.forward * 6, Color.green);
+
+        if (isDead != true)
         {
-            UpdateAttacks();
             UpdateMovement();
+            UpdateAttacks();
 
         }
-      
- 
+
+
+        if(isHoming == true) 
+        {
+            HomingFunction();
+        }
+
 
     }
+
 
 
 
