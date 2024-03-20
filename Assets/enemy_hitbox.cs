@@ -22,7 +22,7 @@ public class enemy_hitbox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log("OVERLAP "+other.name);
+        //Debug.Log("OVERLAP "+other.name);
 
         if (other.CompareTag("Block")) 
         {
