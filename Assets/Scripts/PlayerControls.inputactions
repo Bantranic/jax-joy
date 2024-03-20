@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Punch",
+                    "name": "LightAttack",
                     "type": "Button",
                     "id": "1a86bf9f-85c0-4875-a314-ae7bd2bd18cd",
                     "expectedControlType": "Button",
@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Kick",
+                    "name": "HeavyAttack",
                     "type": "Button",
                     "id": "fe6030b4-a79b-4740-8eae-2e823ac61e2d",
                     "expectedControlType": "Button",
@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PunchL",
+                    "name": "Charge",
                     "type": "Button",
                     "id": "8bed7391-6d76-487b-a3f4-42d575aa8b6a",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PunchR",
+                    "name": "Block",
                     "type": "Button",
                     "id": "ebf6bcf5-f9c5-46f7-9e59-4d425d256a30",
                     "expectedControlType": "Button",
@@ -72,15 +72,6 @@
                     "name": "KickR",
                     "type": "Button",
                     "id": "92e5f0ed-3c2f-4ddd-836c-8369d6b1ea8c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Charge",
-                    "type": "Button",
-                    "id": "a3fdc9e0-c638-408a-9f6b-04db32b118d0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -183,7 +174,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "PunchL",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -194,7 +185,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "PunchL",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -205,7 +196,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "USB Controller",
-                    "action": "PunchL",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -216,7 +207,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "PunchR",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -227,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "PunchR",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -238,7 +229,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "USB Controller",
-                    "action": "PunchR",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -348,7 +339,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Punch",
+                    "action": "LightAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e7d1ec0-42b6-4bd8-ba3c-d3ad2369652e",
+                    "path": "<Keyboard>/#(H)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -359,18 +361,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Kick",
+                    "action": "HeavyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "4256e345-5450-485f-80da-48fe7bd6e39f",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "6ef87243-67d0-42e6-a769-987ea9e69b14",
+                    "path": "<Keyboard>/#(J)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Charge",
+                    "action": "HeavyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

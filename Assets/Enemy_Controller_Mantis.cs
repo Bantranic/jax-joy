@@ -16,6 +16,8 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
     private Animator animator;
 
+    public GameObject hitbox;
+
     GameObject[] players;
 
     //Patrolling 
@@ -86,7 +88,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         if (players != null && players.Length > 0)
         {
 
-            playerPosition = players[0].transform.position;
+            playerPosition = players[Random.Range(0,2)].transform.position;
            // Debug.Log("Players in =" + playerPosition);
         }
         else
@@ -145,7 +147,6 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             //all attack functionallity should go here
 
             //atacking action here
-            Debug.Log("Attacked");
             animator.SetTrigger("Attack");
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -153,7 +154,13 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             
         }
 
-        transform.LookAt(player);
+        // Calculate direction to the player
+        Vector3 directionToPlayer = playerPosition - transform.position;
+        directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
+
+        transform.rotation = Quaternion.LookRotation(directionToPlayer);
+        //transform.LookAt(player);
+     
 
     }
     private void ResetAttack()
@@ -162,7 +169,22 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         alreadyAttacked = false;
 
     }
-   
+
+    // Called to activate the hitbox at the start of the attack animation
+    public void ActivateHitbox()
+    {
+        hitbox.SetActive(true);
+    }
+
+    // Called to deactivate the hitbox at the end of the attack animation
+    public void DeactivateHitbox()
+    {
+        hitbox.SetActive(false);
+    }
+
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -172,11 +194,34 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         //Debug.Log(state);
         //Debug.Log("Destinion = " + playerPosition);
         if (!playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Patroling();//if player is out of sight range 
-        else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Chasing();// If player is in sight range
+        else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral ) Chasing();// If player is in sight range
         else if (playerInSightRange && playerInAttackRange && health.state == EDamageState.Neutral) Attacking();// If player is in attack range
         else 
         {
             agent.SetDestination(transform.localPosition);
+        }
+
+
+        //Checks if animation is playing
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) 
+        {
+            // Determine when to activate/deactivate the hitbox based on animation time
+            float animationtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+
+            if(animationtime >= 0.1f && animationtime <= 0.8f) 
+            {
+               // Debug.Log("hitbox on");
+                ActivateHitbox();
+            
+            }
+            else 
+            {
+                //Debug.Log("Hitbox off");
+                DeactivateHitbox();
+            }
+
+        
         }
     }
 
@@ -185,15 +230,49 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         Debug.Log("HIT");
     }
 
-    public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance) 
+    public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance, float duration) 
     {
-        UnityEngine.Debug.Log("Knockback");
-        //calculate direction of kncokback
-        Vector3 knockback = KnockbackDirection * knockbackdistance;
-
-        // moves the enemy to knockback position
-        transform.position += knockback;
+        //UnityEngine.Debug.Log("Knockback");
+        // moves the enemy to knockback position by starting a corouttine
+        // The Coroutine loops until the elasped time set equal the duration set in the fuction,
+        // To increase the speed increase the knockback distance and to decrease the duration...decrease the duration.
+        StartCoroutine(Knockbackaction(KnockbackDirection, knockbackdistance, duration));
     
+    }
+
+    private IEnumerator Knockbackaction(Vector3 knockbackDirection, float knockbackDistance, float duration) 
+    {
+        //Save intial postion of the the enemy
+        Vector3 initialPosition = transform.position;
+
+        //Calculate target position, so target position = current positon + the direction times by the distance
+        Vector3 targetPosition = initialPosition + knockbackDirection * knockbackDistance;
+
+        // 
+        float elapsedTime = 0f;
+
+
+        //loop until elapsed time equal the duration
+        while(elapsedTime < duration) 
+        {
+
+            // Calculate the interpolation factor (0 to 1)
+            float time = elapsedTime / duration;
+
+
+            // alternate between initial and target positions
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, time);
+
+
+            elapsedTime += Time.deltaTime;
+
+            // until the end of the frame
+            yield return null;
+        }
+
+        // Ensure the enemy reaches the exact target position
+        transform.position = targetPosition;
+
     }
 
 }
