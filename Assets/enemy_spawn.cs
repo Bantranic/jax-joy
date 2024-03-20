@@ -8,7 +8,7 @@ public class enemy_spawn : MonoBehaviour
     public float spawnRate = 10f;
     public float spawnAreaRadius = 5f;
     private float nextSpawnTime;
-
+    public  float spawnAmount;
     // Update is called once per frame
     void Update()
     {
