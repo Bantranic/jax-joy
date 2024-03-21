@@ -7,7 +7,7 @@ public class JoyCamTarget : MonoBehaviour
 {
     void Update()
     {
-        transform.position = (PlayerController.Player1.transform.position);
+        transform.position = (PlayerController.Player2.transform.position);
 
     }
 }

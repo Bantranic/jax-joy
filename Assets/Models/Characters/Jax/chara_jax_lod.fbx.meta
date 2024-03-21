@@ -60,7 +60,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: jax_k1
+      name: jax_l1
       takeName: skeleton_jax|k1
       internalID: -1486588142484148941
       firstFrame: 0
@@ -89,7 +89,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: jax_kk2
+      name: jax_ll2
       takeName: skeleton_jax|kk2
       internalID: -3365374926037365777
       firstFrame: 0
@@ -118,7 +118,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: jax_p1
+      name: jax_h1
       takeName: skeleton_jax|p1
       internalID: -2377938655800884694
       firstFrame: 0
@@ -147,7 +147,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: jax_pp2
+      name: jax_hh2
       takeName: skeleton_jax|pp2
       internalID: -63079608816578443
       firstFrame: 0
