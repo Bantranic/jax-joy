@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42861032, g: 0.099471144, b: 0.10253233, a: 1}
+  m_IndirectSpecularColor: {r: 0.42860708, g: 0.09946766, b: 0.10253125, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3571,7 +3571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &391569709
 Transform:
   m_ObjectHideFlags: 0
@@ -14228,7 +14228,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60
+  field of view: 70
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -14254,8 +14254,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.015415611, y: -0, z: -0, w: 0.99988127}
-  m_LocalPosition: {x: 0, y: 1.41, z: -2.13}
+  m_LocalRotation: {x: 0.21661831, y: -0, z: -0, w: 0.9762564}
+  m_LocalPosition: {x: 0, y: 3.63, z: -3.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20718,7 +20718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1736621808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23813,11 +23813,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4756940127573452776, guid: 61990482c637f1649831ad93df20bc76, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LPunch
+      value: Charge
       objectReference: {fileID: 0}
     - target: {fileID: 4756940127573452776, guid: 61990482c637f1649831ad93df20bc76, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RPunch
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 4756940127573452776, guid: 61990482c637f1649831ad93df20bc76, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

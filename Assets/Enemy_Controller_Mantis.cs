@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy_Controller_Mantis : MonoBehaviour
 {
+    public GameObject LAPosition;
+
     public NavMeshAgent agent;
 
     public Transform player;
@@ -13,6 +15,8 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
     public EntityHealth health;
     public EDamageState state;
+
+    private bool isStunned = false; 
 
     private Animator animator;
 
@@ -188,18 +192,42 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown("t")) 
+        {
+            transform.position = LAPosition.transform.position;
+            gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            isStunned = true;
+            health.state = EDamageState.Stun;
+ 
+        }
+        if (Input.GetKeyDown("e"))
+        {
+            //transform.position = LAPosition;
+            gameObject.GetComponent<NavMeshAgent>().enabled = true;
+            isStunned = false;
+            health.state = EDamageState.Neutral;
+        }
+
+
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, AttackRange, whatIsPlayer);
 
         //Debug.Log(state);
         //Debug.Log("Destinion = " + playerPosition);
-        if (!playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Patroling();//if player is out of sight range 
-        else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral ) Chasing();// If player is in sight range
-        else if (playerInSightRange && playerInAttackRange && health.state == EDamageState.Neutral) Attacking();// If player is in attack range
-        else 
+
+        if(isStunned == false)
         {
-            agent.SetDestination(transform.localPosition);
+            if (!playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Patroling();//if player is out of sight range 
+            else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Chasing();// If player is in sight range
+            else if (playerInSightRange && playerInAttackRange && health.state == EDamageState.Neutral) Attacking();// If player is in attack range
+            else
+            {
+                agent.SetDestination(transform.localPosition);
+            }
+
         }
+        
 
 
         //Checks if animation is playing
