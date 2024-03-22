@@ -31,6 +31,111 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8777705855260047324}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1028278068207177262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 769111879825469481}
+  - component: {fileID: 2489948950674835489}
+  - component: {fileID: 3488135950609330678}
+  - component: {fileID: 6490151673946286188}
+  m_Layer: 6
+  m_Name: BlockHitbox
+  m_TagString: Block
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &769111879825469481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028278068207177262}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.311, y: 1.23, z: 0.3460002}
+  m_LocalScale: {x: 1, y: 1.6129999, z: 0.13965}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8777705855260047324}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2489948950674835489
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028278068207177262}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &3488135950609330678
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028278068207177262}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7ba0e022fbbf9f94982aa971b5a7c0d6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6490151673946286188
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028278068207177262}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &9104613259454533687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,6 +192,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b4edb7a76516c854ba6fdf7ff089553c, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 769111879825469481}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b4edb7a76516c854ba6fdf7ff089553c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4418537991410645695}
     m_AddedComponents:
@@ -123,9 +231,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db4b302121d7624ba08cc3bbf9d6aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5.6
+  defaultPlayerSpeed: 0
   jumpHeight: 1.4
   gravityValue: -30
+  curAttack: 0
+  isDead: 0
+  defualtKnockbackDistance: 0
+  comboDuration: 2
+  homingStrength: 2
+  blockHitBox: {fileID: 1028278068207177262}
 --- !u!143 &2178526468072896579
 CharacterController:
   m_ObjectHideFlags: 0
@@ -262,6 +376,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 92e5f0ed-3c2f-4ddd-836c-8369d6b1ea8c
     m_ActionName: 'Player/KickR[/XInputControllerWindows/rightTrigger,/XInputControllerWindows1/rightTrigger,/Keyboard/l]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1a86bf9f-85c0-4875-a314-ae7bd2bd18cd
+    m_ActionName: 'Player/LightAttack[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fe6030b4-a79b-4740-8eae-2e823ac61e2d
+    m_ActionName: 'Player/HeavyAttack[/Keyboard/j]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

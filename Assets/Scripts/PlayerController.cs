@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool jumped = false;
 
     // What attack is currently active
-    private EAttackType curAttack = EAttackType.None;
+    public EAttackType curAttack = EAttackType.None;
 
     // Amount of attacks that have been performed
     private int attackCounter = 0;
@@ -119,11 +119,14 @@ public class PlayerController : MonoBehaviour
         if (!groundedPlayer)
             return;
 
+
+
+
         jumped = context.action.triggered;
 
         if (context.action.triggered)
         {
-            animator.SetTrigger("jumped");
+           animator.SetTrigger("jumped");
         }
     }
 
@@ -218,6 +221,14 @@ public class PlayerController : MonoBehaviour
 
 
             }
+            else if (LCount == 1 && HCount == 1) //Trigger punch 3
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("LightA3");// calls animation condition
+
+
+
+            }
 
 
             //JOY LightATTACKS
@@ -237,9 +248,10 @@ public class PlayerController : MonoBehaviour
             }
             else if (LCount == 3 && HCount == 0 && gameObject.name == ("Player 2"))
             {
-                comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("LightA3");// calls animation condition
-                UnityEngine.Debug.Log("LightA3");
+                //comboTime = comboTimeSet;// reset combo time
+                //animator.SetTrigger("LightA3");// calls animation condition
+                //UnityEngine.Debug.Log("LightA3");
+                //UnityEngine.Debug.Log("LightA3");
 
             }
         }
@@ -268,12 +280,27 @@ public class PlayerController : MonoBehaviour
 
             }
 
+            //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
+            if (LCount == 0 && HCount == 2)
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("HeavyA2");// calls animation condition
+                //UnityEngine.Debug.Log("HeavyA1")
+            }
+            //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
+            if (LCount == 1 && HCount == 2)
+            {
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("HeavyA2");// calls animation condition
+                //UnityEngine.Debug.Log("HeavyA1")
+            }
+
             //JOY HEAVYATTACKS Go here in future
 
 
             //UnityEngine.Debug.Log("Punches = " + pCount + " Kickes =" + kCount);
 
-            
+
         }
 
     }
@@ -523,8 +550,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement() 
     {
-
-
+        //Grounded player changes 
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -534,8 +560,12 @@ public class PlayerController : MonoBehaviour
         // Checks if player is grounded for animator
         animator.SetBool("grounded", groundedPlayer);
 
+       
 
-        if(ComboCount!= 0) 
+
+
+
+        if (ComboCount!= 0) 
         {
             //UnityEngine.Debug.Log("SLOW");
             playerSpeed = 0.3f;
@@ -562,6 +592,8 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             jumped = false;
         }
+
+        
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
@@ -595,7 +627,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        UnityEngine.Debug.Log("hut");
+        if (collision.collider.CompareTag("Ground"))
+        {
 
+            UnityEngine.Debug.Log("Grounded");
+            jumped = false;
+
+        }
+
+    }
 
 
     // When player dies, they are no longer referenced
