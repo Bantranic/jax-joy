@@ -22,7 +22,9 @@ public class PlayerUI : MonoBehaviour
 
     public void SetMaxHealth() 
     {
+        float Health = PlayerHealth.currentHealth;
         Slider.maxValue = PlayerHealth.maxHealth;
+        Slider.value = Health;
     }
 
     public void SetHealth() 

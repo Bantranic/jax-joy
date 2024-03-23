@@ -53,7 +53,7 @@ public class EntityHealth : MonoBehaviour
     public PlayerUI playerUI;
 
 
-    private void Awake()
+    private void Start()
     {
         currentHealth = maxHealth;
 
@@ -136,6 +136,8 @@ public class EntityHealth : MonoBehaviour
         //Only happens to the player gameobjects
         if(currentHealth == 0 && gameObject.tag == "Player") 
         {
+
+            playerUI.SetHealth();
             PlayerDeath();
 
         }
@@ -183,6 +185,7 @@ public class EntityHealth : MonoBehaviour
             controller.isDead = false;
 
             currentHealth = maxHealth;
+            playerUI.SetMaxHealth();
             deathCount = 0;
             deathTime = 0;
 

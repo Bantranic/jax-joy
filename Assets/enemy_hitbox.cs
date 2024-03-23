@@ -38,8 +38,8 @@ public class enemy_hitbox : MonoBehaviour
             if(is_Block == false) 
             {
                 var health = other.GetComponent<EntityHealth>();
-
                 health.currentHealth -= damage;
+                health.playerUI.SetHealth();
                 health.Stun();
 
                 Debug.Log("WE HIT " + other.gameObject.name + "Health is now = " + health.maxHealth);
