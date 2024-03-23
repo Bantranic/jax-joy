@@ -39,10 +39,10 @@ public class enemy_hitbox : MonoBehaviour
             {
                 var health = other.GetComponent<EntityHealth>();
 
-                health.health -= damage;
+                health.currentHealth -= damage;
                 health.Stun();
 
-                Debug.Log("WE HIT " + other.gameObject.name + "Health is now = " + health.health);
+                Debug.Log("WE HIT " + other.gameObject.name + "Health is now = " + health.maxHealth);
 
             }
             else 

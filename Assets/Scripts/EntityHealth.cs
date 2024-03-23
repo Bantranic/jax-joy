@@ -29,7 +29,9 @@ public class EntityHealth : MonoBehaviour
 {
 
     // Entity health
-    public float health = 100;
+    public float maxHealth = 100;
+
+    public float currentHealth;
 
     // Stun 
     public float resetTime = 0;
@@ -48,6 +50,19 @@ public class EntityHealth : MonoBehaviour
     //How strong the knockback is
     public float knockBackForce;
 
+    public PlayerUI playerUI;
+
+
+    private void Awake()
+    {
+        currentHealth = maxHealth;
+
+        if(playerUI != null) 
+        {
+            playerUI.SetMaxHealth();
+        }
+        
+    }
 
     // Tells player how much damage something took
     public virtual float ApplyDamage(float damage, GameObject causer, EDamageType type)
@@ -55,8 +70,8 @@ public class EntityHealth : MonoBehaviour
         //Vector3 currentposition = transform.position;
         Debug.Log("HIT");
      
-        health -= damage;
-        if (health <= 0 && gameObject.tag != "Player")
+        currentHealth -= damage;
+        if (currentHealth <= 0 && gameObject.tag != "Player")
         {
             Death();
         }
@@ -66,11 +81,13 @@ public class EntityHealth : MonoBehaviour
     public void Stun()
     {
         // Checks if health is greater than 0, then sets stun time and applies to entity
-        if (health <= 0 || state > EDamageState.Stun)
+        if (currentHealth <= 0 || state > EDamageState.Stun)
             return;
 
+        //Set the Players Health in The UI Script settings
+        playerUI.SetHealth();
 
-        Debug.Log("stun" + health);
+        Debug.Log("stun" + currentHealth);
         state = EDamageState.Stun;
 
         resetTime = Time.time + 1;
@@ -79,6 +96,14 @@ public class EntityHealth : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            takesdamage(1);
+            //health.SetHealth();
+        }
+
+
         // Timer for when stun state reverts back to neutral state
         if (Time.time > resetTime && state == EDamageState.Stun)
             state = EDamageState.Neutral;
@@ -87,9 +112,9 @@ public class EntityHealth : MonoBehaviour
            // Destroy(gameObject);
 
 
-        if (health < 0)
+        if (currentHealth < 0)
         {
-            health = 0;
+            currentHealth = 0;
         }
 
 
@@ -109,7 +134,7 @@ public class EntityHealth : MonoBehaviour
         }
 
         //Only happens to the player gameobjects
-        if(health == 0 && gameObject.tag == "Player") 
+        if(currentHealth == 0 && gameObject.tag == "Player") 
         {
             PlayerDeath();
 
@@ -157,11 +182,22 @@ public class EntityHealth : MonoBehaviour
             animator.SetTrigger("UnDeath");
             controller.isDead = false;
 
-            health = 100;
+            currentHealth = maxHealth;
             deathCount = 0;
             deathTime = 0;
 
         }
         
+    }
+
+
+
+    public void takesdamage(int damageAmount) 
+    {
+        currentHealth -= damageAmount;
+        Debug.Log("HP = " + currentHealth);
+        playerUI.SetHealth();
+
+
     }
 }
