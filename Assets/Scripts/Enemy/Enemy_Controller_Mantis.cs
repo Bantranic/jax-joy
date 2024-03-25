@@ -92,7 +92,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         if (players != null && players.Length > 0)
         {
 
-            playerPosition = players[Random.Range(0,2)].transform.position;
+            playerPosition = players[Random.Range(0,players.Length)].transform.position;
            // Debug.Log("Players in =" + playerPosition);
         }
         else
