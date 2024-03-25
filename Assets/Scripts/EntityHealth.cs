@@ -33,6 +33,9 @@ public class EntityHealth : MonoBehaviour
 
     public float currentHealth;
 
+
+    public float damageResetTime = 1;
+    private bool isDamageable = true;
     // Stun 
     public float resetTime = 0;
 
@@ -68,11 +71,21 @@ public class EntityHealth : MonoBehaviour
     public virtual float ApplyDamage(float damage, GameObject causer, EDamageType type)
     {
         //Vector3 currentposition = transform.position;
-        Debug.Log("HIT");
+       
      
-        currentHealth -= damage;
+
+        if(isDamageable == true) 
+        {
+
+            currentHealth -= damage;
+            Debug.Log("HIT");
+            isDamageable = false;
+
+        }
+        
         if (currentHealth <= 0 && gameObject.tag != "Player")
         {
+            Debug.Log("DEATHS");
             Death();
         }
         return damage;
@@ -85,7 +98,11 @@ public class EntityHealth : MonoBehaviour
             return;
 
         //Set the Players Health in The UI Script settings
-        playerUI.SetHealth();
+        if (gameObject.CompareTag("Player")) 
+        {
+            playerUI.SetHealth();
+
+        }
 
         Debug.Log("stun" + currentHealth);
         state = EDamageState.Stun;
@@ -103,13 +120,33 @@ public class EntityHealth : MonoBehaviour
             //health.SetHealth();
         }
 
+        if(isDamageable == false) 
+        {
+            damageResetTime -= 0.8f * Time.deltaTime;
+        
+        }
+
+        if(damageResetTime <= 0f) 
+        {
+            isDamageable = true;
+            damageResetTime = 1f;
+        }
 
         // Timer for when stun state reverts back to neutral state
         if (Time.time > resetTime && state == EDamageState.Stun)
             state = EDamageState.Neutral;
 
-        if (Time.time > deathTime && state == EDamageState.Death)
-           // Destroy(gameObject);
+        if (state == EDamageState.Death && gameObject.tag != "Player")
+        {
+            deathTime += 1f * Time.deltaTime;
+
+            if (deathTime >= 4f)
+            {
+                Destroy(gameObject);
+            }
+
+        }
+            //Destroy(gameObject);
 
 
         if (currentHealth < 0)
@@ -157,7 +194,12 @@ public class EntityHealth : MonoBehaviour
 
         state = EDamageState.Death;
 
-        deathTime = Time.time + 2;
+        deathTime += 1f * Time.deltaTime;
+
+        if(deathTime >= 4f) 
+        {
+            Destroy(gameObject);
+        }
     }
 
     void PlayerDeath()
@@ -168,17 +210,21 @@ public class EntityHealth : MonoBehaviour
         var Input = gameObject.GetComponent<PlayerInput>();
         Animator animator = gameObject.GetComponent<Animator>();
 
-        if (deathCount == 0)
-        {
-            controller.isDead = true;
-            animator.SetTrigger("Death");
-
-            Debug.Log(gameObject.name + " is Death");
-
-            deathCount += 1;
-        }
 
         deathTime += 1 * Time.deltaTime;
+
+        if (state == EDamageState.Death)
+        {
+            controller.isDead = true;
+            if(deathCount == 0) 
+            { animator.SetTrigger("Death"); }
+            
+
+            //Debug.Log(gameObject.name + " is Death");
+
+            deathCount = 1;
+        }
+
         if (deathTime >= 5) 
         {
             animator.SetTrigger("UnDeath");

@@ -14223,6 +14223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  damageResetTime: 0
   resetTime: 0
   deathTime: 0
   state: 0
@@ -16301,6 +16302,147 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02e4b833ab88344bbaad4388e05ade5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1123906372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1123906374}
+  - component: {fileID: 1123906373}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1123906373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123906372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3caa9cd76de97840b47225d6121b8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: 951cc47eeed3f044c8319a35631c94d0, type: 3}
+    name: levelTheme
+    volume: 0.2
+    pitch: 1
+    Loop: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: light attack swoosh
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: heavy attack swoosh
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Light hit
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Heavy hit
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: jax damage
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Jax jump
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Jax Grunt
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Jax Death
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Jax other sound
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: joy damage
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: joy land
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Joy Grunt
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Joy Death
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Player-footsteps-02
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: da9420f5d4e0e3946bb4d7627dd0ffaa, type: 3}
+    name: Block
+    volume: 0
+    pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+--- !u!4 &1123906374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123906372}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7966416, y: 0.8991226, z: -6.592478}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1141051646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17083,6 +17225,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 391569709}
     m_Modifications:
+    - target: {fileID: 3523918347204746669, guid: 2336df9fadc1bc04392493126b090f06, type: 3}
+      propertyPath: damageResetTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3758089620535693010, guid: 2336df9fadc1bc04392493126b090f06, type: 3}
       propertyPath: m_Name
       value: E_Group2_Mantis
@@ -22743,8 +22889,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1937829711}
   - component: {fileID: 1937829710}
+  - component: {fileID: 1937829712}
   m_Layer: 0
-  m_Name: Soundtrack
+  m_Name: Stage_settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22757,7 +22904,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937829709}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 951cc47eeed3f044c8319a35631c94d0, type: 3}
@@ -22861,6 +23008,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1937829712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937829709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966aea64169dd324f9aaa4588257b824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1950694573
 GameObject:
   m_ObjectHideFlags: 0
@@ -25393,3 +25552,4 @@ SceneRoots:
   - {fileID: 672722887}
   - {fileID: 568552226}
   - {fileID: 300412894}
+  - {fileID: 1123906374}
