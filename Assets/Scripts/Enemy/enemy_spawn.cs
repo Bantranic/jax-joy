@@ -9,22 +9,38 @@ public class enemy_spawn : MonoBehaviour
     public float spawnAreaRadius = 5f;
     private float nextSpawnTime;
     public  float spawnAmount;
+    private float spawnCount;
     // Update is called once per frame
     void Update()
     {
-        if(Time.time >= nextSpawnTime) 
+        if(Time.time >= nextSpawnTime && spawnCount <= spawnAmount) 
         {
             SpawnEnemy();
             nextSpawnTime = Time.time + 1f / spawnRate;
+            spawnCount += 1;
         }
+
+
+        /*if (gameObject.GetComponentInChildren<GameObject>() == null) 
+        {
+            Debug.Log("NO object");
+        
+        }
+        else 
+        {
+            Debug.Log("object" + gameObject.name);
+        }*/
         
     }
 
     void SpawnEnemy() 
     {
-        Vector3 randomPosition = transform.position + Random.insideUnitSphere * spawnAreaRadius;
+        Vector3 randomPosition = gameObject.transform.position + Random.insideUnitSphere * spawnAreaRadius;
         randomPosition.y = 0;
-        Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+        var spawn = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+        spawn.transform.parent = transform;
+
     
     }
+
 }
