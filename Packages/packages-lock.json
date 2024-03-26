@@ -34,7 +34,7 @@
     },
     "com.unity.ext.nunit": {
       "version": "2.0.3",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -51,6 +51,16 @@
         "com.unity.test-framework": "1.3.9",
         "com.unity.testtools.codecoverage": "1.2.4"
       }
+    },
+    "com.unity.film-internal-utilities": {
+      "version": "0.18.4-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.timeline": "1.2.18"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
       "version": "3.0.25",
@@ -102,6 +112,23 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.streaming-image-sequence": {
+      "version": "0.17.2-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.film-internal-utilities": "0.18.4-preview",
+        "com.unity.editorcoroutines": "1.0.0",
+        "com.unity.ext.nunit": "1.0.6",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.director": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0",
+        "com.unity.ugui": "1.0.0",
+        "com.unity.timeline": "1.2.18"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
