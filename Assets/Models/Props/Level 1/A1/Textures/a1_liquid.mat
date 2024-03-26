@@ -95,8 +95,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.3751157, g: 0.610266, b: 0.7735849, a: 1}
-    - _DepthGradientDeep: {r: 0.29231045, g: 0.4260206, b: 0.4811321, a: 0.749}
-    - _DepthGradientShallow: {r: 0.4496084, g: 0.6301269, b: 0.6320754, a: 0.725}
+    - _DepthGradientDeep: {r: 0.23137255, g: 0.36941847, b: 0.49019608, a: 0.749}
+    - _DepthGradientShallow: {r: 0.4727661, g: 0.7231527, b: 0.754717, a: 0.725}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SurfaceNoiseScroll: {r: 0.03, g: 0.03, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -9,6 +9,6 @@ public class KillTrigger : MonoBehaviour
         var Health = TheOneWhoMightDie.gameObject.GetComponent<EntityHealth>();
         if (Health == null)
             return;
-        Health.ApplyDamage(99999999, gameObject, EDamageType.StrongFist); //whoever this is, they are being PUNCHED 99999999 times in a single frame i hope you know this.
+        Health.ApplyDamage(99999999, gameObject, EDamageType.StrongFist); //whoever this is, they are being **PUNCHED** 99999999 times in a single frame i hope you know this.
     }
 }
