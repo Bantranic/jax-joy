@@ -68,7 +68,10 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DiffuseFalloff: 0.2
+    - _DiffuseWrap: 0.5
     - _DstBlend: 0
+    - _Gloss: 5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -77,11 +80,15 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
+    - _SpecularFalloff: 0.85
     - _SpecularHighlights: 1
+    - _SpecularThreshold: 0.15
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.26400852, g: 0.2831041, b: 0.33962262, a: 1}
+    - _Color: {r: 0.3072138, g: 0.339581, b: 0.3679245, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 0.6745098, g: 0.7137255, b: 0.7647059, a: 1}
+    - _SpecularColor: {r: 0.40343055, g: 0.42215034, b: 0.46226418, a: 1}
   m_BuildTextureStacks: []
