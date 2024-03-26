@@ -8,16 +8,18 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100 
+        Tags {"Queue"="Geometry" "IgnoreProjector"="True" "RenderType"="Transparent"}
+        Blend SrcAlpha OneMinusSrcAlpha
+        Cull front 
+        LOD 100
 
         Pass
         {
             Cull Off
             CGPROGRAM
             // Physically based Standard lighting model, and enable shadows on all light types <- said the dipshit
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert alpha
+            #pragma fragment frag alpha
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
