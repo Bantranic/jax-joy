@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
     public void LightAttack(InputAction.CallbackContext context)
     {
         var Health = gameObject.GetComponent<EntityHealth>();
-        if(Health.state != EDamageState.Death){
+        if(Health.state == EDamageState.Death){
             return;
         }
         
@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour
     {
 
         var Health = gameObject.GetComponent<EntityHealth>();
-        if (Health.state != EDamageState.Death)
+        if (Health.state == EDamageState.Death)
         {
             return;
         }
