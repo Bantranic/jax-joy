@@ -411,16 +411,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Enables and disables attacks
-   // public void StartLightAttack() { curAttack = EAttackType.LightA; attackCounter++; }
-    //public void StartHeavyAttack() { curAttack = EAttackType.HeavyA; attackCounter++; }
-    //public void StartLPunch() { curAttack = EAttackType.LPunch; attackCounter++; }
-    //public void StartRPunch() { curAttack = EAttackType.RPunch; attackCounter++; }
-    //public void StartLKick() { curAttack = EAttackType.LKick; attackCounter++; }
-    //public void StartRKick() { curAttack = EAttackType.RKick; attackCounter++; }
-    //public void StopAttack() { curAttack = EAttackType.None; }
-
-    // Hit detection for attacks
+   
     void UpdateAttacks ()
     {
         //if combo time is greater than 0 then

@@ -24,6 +24,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     public GameObject hitbox;
 
     GameObject[] players;
+    private GameObject targetPlayer;
 
     private float stunDuration;
 
@@ -48,7 +49,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         players = GameObject.FindGameObjectsWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
-
+        targetPlayer = players[Random.Range(0, players.Length)];
     }
 
 
@@ -56,8 +57,6 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     private void Patroling() 
     {
 
-        
-        { }
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet) agent.SetDestination(walkPoint);
@@ -95,7 +94,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         if (players != null && players.Length > 0)
         {
 
-            playerPosition = players[Random.Range(0,players.Length)].transform.position;
+            playerPosition = targetPlayer.transform.position;
            // Debug.Log("Players in =" + playerPosition);
         }
         else

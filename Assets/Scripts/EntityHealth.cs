@@ -54,7 +54,8 @@ public class EntityHealth : MonoBehaviour
     public float knockBackForce;
 
     public PlayerUI playerUI;
-
+    
+    public GameObject Respawn_position;
 
     private void Start()
     {
@@ -64,7 +65,23 @@ public class EntityHealth : MonoBehaviour
         {
             playerUI.SetMaxHealth();
         }
-        
+
+        if(this.gameObject.name == "Player 1")
+        {
+            Respawn_position = GameObject.Find("Player 2");
+
+
+        }
+        else if (this.gameObject.name == "Player 2")
+        {
+            Respawn_position = GameObject.Find("Player 1");
+
+        }
+        else 
+        {
+            Respawn_position = null;
+        }
+
     }
 
     // Tells player how much damage something took
@@ -112,6 +129,15 @@ public class EntityHealth : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetKeyDown("e") && this.gameObject.name == "Player 2") 
+        {
+            Debug.Log("RESPAWNING");
+
+            this.transform.GetComponent<CharacterController>().enabled = false;
+            this.transform.position = Respawn_position.transform.position + new Vector3(-1, 1, 0);
+            this.transform.GetComponent<CharacterController>().enabled = true;
+        }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -161,11 +187,7 @@ public class EntityHealth : MonoBehaviour
 
                // animator.SetTrigger("Stun");
                 controller.enabled = false;
-               state = EDamageState.Neutral;
-
-      
-            
-            
+               state = EDamageState.Neutral;   
         
         }
 
@@ -226,6 +248,7 @@ public class EntityHealth : MonoBehaviour
 
         if (deathTime >= 5) 
         {
+            state = EDamageState.Neutral;
             animator.SetTrigger("UnDeath");
             controller.isDead = false;
 
@@ -233,6 +256,19 @@ public class EntityHealth : MonoBehaviour
             playerUI.SetMaxHealth();
             deathCount = 0;
             deathTime = 0;
+
+            if(Respawn_position != null && Respawn_position.gameObject.GetComponent<PlayerController>().isDead == false) 
+            {
+                this.transform.GetComponent<CharacterController>().enabled = false;
+                this.transform.position = Respawn_position.transform.position + new Vector3(-1, 1, 0);
+                this.transform.GetComponent<CharacterController>().enabled = true;
+            }
+            else 
+            {
+                Debug.LogError("Not RESPAWN OBJECT");
+                GameObject.Find("Stage_settings").GetComponent<Level_01_stage_settings>().Retry();
+            }
+            
 
         }
         

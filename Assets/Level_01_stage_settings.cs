@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Level_01_stage_settings : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class Level_01_stage_settings : MonoBehaviour
             FindAnyObjectByType<Level_01_Audio_Manager>().PitchDown("levelTheme", 0.3f);
         
         }*/
+    }
+
+    public void Retry() 
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
