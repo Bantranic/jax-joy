@@ -42,7 +42,7 @@ public class enemy_hitbox : MonoBehaviour
                 health.playerUI.SetHealth();
                 health.Stun();
 
-                Debug.Log("WE HIT " + other.gameObject.name + "Health is now = " + health.maxHealth);
+                //Debug.Log("WE HIT " + other.gameObject.name + "Health is now = " + health.maxHealth);
 
             }
             else 

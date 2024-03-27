@@ -78,17 +78,16 @@ public class EntityHealth : MonoBehaviour
         {
 
             currentHealth -= damage;
-            Debug.Log("HIT");
+            Debug.Log("ENEMY_Health = " + currentHealth);
             isDamageable = false;
 
         }
         
-        if (currentHealth <= 0 && gameObject.tag != "Player")
+        if (currentHealth <= 0 && gameObject.tag != "Player")//if player health is 0 then player death 
         {
-            Debug.Log("DEATHS");
             Death();
         }
-        return damage;
+       return damage;
     }
 
     public void Stun()
@@ -101,10 +100,10 @@ public class EntityHealth : MonoBehaviour
         if (gameObject.CompareTag("Player")) 
         {
             playerUI.SetHealth();
+            this.GetComponent<Animator>().SetTrigger("Stun");
 
         }
 
-        Debug.Log("stun" + currentHealth);
         state = EDamageState.Stun;
 
         resetTime = Time.time + 1;
@@ -160,7 +159,7 @@ public class EntityHealth : MonoBehaviour
             PlayerController controller = gameObject.GetComponent<PlayerController>();
             Animator animator = gameObject.GetComponent<Animator>();
 
-                animator.SetTrigger("Stun");
+               // animator.SetTrigger("Stun");
                 controller.enabled = false;
                state = EDamageState.Neutral;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class zone_manager : MonoBehaviour
 {
 
-    public Enemy_zone enemyZone;
+   
 
     public int Clearamount;
     public int enemies_defeated;
@@ -14,16 +14,29 @@ public class zone_manager : MonoBehaviour
     private float active_delay_max = 5f;
 
     public GameObject walkTrigger;
-    public GameObject[] spawners;
+    public List<GameObject> spawners;
+
+   // public GameObject childObject;
 
     public bool isactive = false;
     private bool isCleared = false;
     // Start is called before the first frame update
-    private BoxCollider boxCollider;
+    public GameObject barrier;
     void Start()
     {
-        boxCollider = gameObject.GetComponentInChildren<BoxCollider>(); //GetComponent<BoxCollider>();
-        boxCollider.enabled = false;
+        //barrier = gameObject.GetComponentInChildren<BoxCollider>(); //GetComponent<BoxCollider>();
+        barrier.SetActive(false);
+
+        foreach (Transform child in this.transform) 
+        {
+
+            if(child.GetComponent<enemy_spawn>() != null) 
+            {
+                spawners.Add(child.gameObject);
+            }
+            
+        
+        }
 
     }
 
@@ -32,22 +45,35 @@ public class zone_manager : MonoBehaviour
 
         if(isactive == true) 
         {
-            boxCollider.enabled = true;
+            barrier.SetActive(true);
             walkTrigger.SetActive(false);
             
             foreach(GameObject s in spawners) 
             {
                 s.SetActive(true);
+
+                if(s.GetComponent<enemy_spawn>().enabled == false) 
+                {
+                    spawners.Remove(s.gameObject);
+                
+                }
             
+            }
+
+            if(spawners.Count == 0) 
+            {
+                isactive = false;
             }
         
         }
         else 
         {
 
-            boxCollider.enabled = false;
+            barrier.SetActive(false);
 
         }
+
+
 
 
 
