@@ -279,7 +279,7 @@ public class PlayerController : MonoBehaviour
 
 
             //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
-            UnityEngine.Debug.Log("Kicking");
+           
             if (LCount == 0 && HCount == 1 || LCount == 2 && HCount == 1)
             {
                 comboTime = comboTimeSet;// reset combo time
@@ -375,6 +375,8 @@ public class PlayerController : MonoBehaviour
                
                 // Trigger block action when input is performed
               UnityEngine.Debug.Log("Switch BLOCK");
+
+              animator.ResetTrigger("UnBlock");
               animator.SetTrigger("Block");
                blockHitBox.SetActive(true);
                 break;
@@ -520,7 +522,7 @@ public class PlayerController : MonoBehaviour
                         if (curAttack == EAttackType.HeavyA)
                         {
                             //Apply Damage
-                            Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
+                            Health.ApplyDamage(100, gameObject, EDamageType.StrongFist);
                             Health.Stun();
 
                             //Calculate kncokback
@@ -552,10 +554,10 @@ public class PlayerController : MonoBehaviour
                     if (Health.CompareTag("Player"))
                     {
 
-
+                        /*
 
                         //Apply Damage
-                        Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
+                        Health.ApplyDamage(0, gameObject, EDamageType.StrongFist);
                         Health.Stun();
 
                         //Calculate kncokback
@@ -567,7 +569,7 @@ public class PlayerController : MonoBehaviour
                         {
                             //calls the appltknockback function located in the Enemy_mantis_controller script
                             enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
-                        }
+                        }*/
 
                     }
                     
@@ -666,7 +668,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        UnityEngine.Debug.Log("hut");
+      
         if (collision.collider.CompareTag("Ground"))
         {
 

@@ -8,7 +8,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     public GameObject LAPosition;
 
     public NavMeshAgent agent;
-
+    public float speed;
     public Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer, whatIsEnemy;
@@ -25,13 +25,13 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     GameObject[] players;
 
     //Patrolling 
-    public Vector3 walkPoint;
+    private Vector3 walkPoint;
     bool walkPointSet;
-    public float walkPointRange;
+    private float walkPointRange;
 
     //chasing
     Vector3 playerPosition;
-    public float avoidanceDistance;
+    //public float avoidanceDistance;
     //Attacking
     public float timeBetweenAttacks;
     public bool alreadyAttacked;
@@ -87,7 +87,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     }
     private void Chasing()
     {
-
+        agent.speed = speed;
         //If players where found with tag and there is at least one player in the level
         if (players != null && players.Length > 0)
         {
@@ -100,42 +100,15 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             Debug.LogError("NO Game Object found with Player tag");
         }
 
-        // direction to target eqaul target position minus current position
-        /* Vector3 directionToPlayer = playerPosition - transform.position;
-         bool avoidObstacle = false;
-
-         Vector3 avoidancePoint = Vector3.zero;
-
-         //Raycast check to see if certain object block path to player
-         RaycastHit[] hits = Physics.RaycastAll(transform.position, directionToPlayer, sightRange, whatIsEnemy);
-
-         // Check all hits to determine if any are obstacles
-         foreach (RaycastHit hit in hits) 
-         {
-           if(hit.collider.gameObject != gameObject) 
-             {
-                 // Calculate the point to avoid the obstacle
-                 avoidancePoint = transform.position + directionToPlayer.normalized;
-
-                 avoidObstacle = true;
-                 break;
-             }
-
-
-         }
-
-         // If an obstacle is detected, adjust the destination to avoid it
-         if (avoidObstacle)
-         {
-             agent.SetDestination(playerPosition);
-             //agent.SetDestination(avoidancePoint + directionToPlayer.normalized * avoidanceDistance);
-         }
-         else // Set path to player
-         {
-             agent.SetDestination(playerPosition);
-         }*/
+        
         animator.SetTrigger("Run");
         agent.SetDestination(playerPosition);
+
+
+        Vector3 directionToPlayer = playerPosition - transform.position;
+        directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
+
+        transform.rotation = Quaternion.LookRotation(directionToPlayer);
         transform.LookAt(player);
 
     }
@@ -144,7 +117,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         // Stops in movement so it does collide into player 
         // adjust the attack range range for stoping distance
         agent.SetDestination(transform.localPosition);
-        
+        agent.speed = 0;
 
         if (!alreadyAttacked)//If already attacked equals false
         {
@@ -163,7 +136,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
 
         transform.rotation = Quaternion.LookRotation(directionToPlayer);
-        //transform.LookAt(player);
+        transform.LookAt(player);
      
 
     }
@@ -215,6 +188,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         if(health.state == EDamageState.Death)
         {
             DeactivateHitbox();
+            agent.speed = 0;
         
         }
 
@@ -263,7 +237,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("HIT");
+       // Debug.Log("HIT");
     }
 
     public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance, float duration) 
@@ -282,7 +256,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         Vector3 initialPosition = transform.position;
 
         //Calculate target position, so target position = current positon + the direction times by the distance
-        Vector3 targetPosition = initialPosition + knockbackDirection * knockbackDistance;
+        Vector3 targetPosition = initialPosition + knockbackDirection + new Vector3(0,1,0) * knockbackDistance;
 
         // 
         float elapsedTime = 0f;
