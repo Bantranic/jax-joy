@@ -7,8 +7,11 @@ using UnityEngine.InputSystem;
 public enum EAttackType
 {
     None,
-    LightA,
-    HeavyA,
+    LightA1,
+    LightA2,
+    LightA3,
+    HeavyA1,
+    HeavyA2,
     Charge
 }
 
@@ -153,11 +156,11 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), transform.forward, out hit))
             {
                 UnityEngine.Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.green);
-                UnityEngine.Debug.Log("RaycastHit");
+                
                 //Check for enemies
                 if (hit.collider.CompareTag("Enemy"))
                 {
-                    UnityEngine.Debug.Log("EnemyHit");
+                    //UnityEngine.Debug.Log("EnemyHit");
                     isHoming = true;
                     //Calculate the direction towards enemies
                     Vector3 directionToTarget = (hit.point - transform.position).normalized;
@@ -198,10 +201,11 @@ public class PlayerController : MonoBehaviour
     
    void LightAttackAction() 
     {
-
+            
             //JAX ATTACKS
             if (LCount == 1 && HCount == 0) //Trigger punch 1
             {
+                curAttack = EAttackType.LightA1;
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA1");// calls animation condition
 
@@ -209,6 +213,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (LCount == 2 && HCount == 0) //Trigger punch 2
             {
+                curAttack = EAttackType.LightA2;
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("LightA2"); // calls animation condition
 
@@ -230,31 +235,6 @@ public class PlayerController : MonoBehaviour
 
 
             }
-
-
-            //JOY LightATTACKS
-            if (LCount == 1 && HCount == 0 && gameObject.name == ("Player 2"))
-            {
-                comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("Punch1");// calls animation condition
-                UnityEngine.Debug.Log("Punch3");
-
-            }
-            else if (LCount == 2 && HCount == 0 && gameObject.name == ("Player 2"))
-            {
-                comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("LightA2");// calls animation condition
-                UnityEngine.Debug.Log("LightA2");
-
-            }
-            else if (LCount == 3 && HCount == 0 && gameObject.name == ("Player 2"))
-            {
-                //comboTime = comboTimeSet;// reset combo time
-                //animator.SetTrigger("LightA3");// calls animation condition
-                //UnityEngine.Debug.Log("LightA3");
-                //UnityEngine.Debug.Log("LightA3");
-
-            }
         }
 
 
@@ -262,6 +242,7 @@ public class PlayerController : MonoBehaviour
 
     public void HeavyAttack(InputAction.CallbackContext context)
     {
+        
 
         var Health = gameObject.GetComponent<EntityHealth>();
         if (Health.state == EDamageState.Death)
@@ -282,6 +263,7 @@ public class PlayerController : MonoBehaviour
            
             if (LCount == 0 && HCount == 1 || LCount == 2 && HCount == 1)
             {
+                curAttack = EAttackType.HeavyA1;
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("HeavyA1");// calls animation condition
                 //UnityEngine.Debug.Log("HeavyA1");
@@ -291,6 +273,7 @@ public class PlayerController : MonoBehaviour
             //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
             if (LCount == 0 && HCount == 2)
             {
+                curAttack = EAttackType.HeavyA2;
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("HeavyA2");// calls animation condition
                 //UnityEngine.Debug.Log("HeavyA1")
@@ -298,6 +281,7 @@ public class PlayerController : MonoBehaviour
             //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
             if (LCount == 1 && HCount == 2)
             {
+                curAttack = EAttackType.HeavyA2;
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("HeavyA2");// calls animation condition
                 //UnityEngine.Debug.Log("HeavyA1")
@@ -407,7 +391,7 @@ public class PlayerController : MonoBehaviour
             //Check for enemies
             if (hit.collider.CompareTag("Enemy"))
             {
-                UnityEngine.Debug.Log("HOMING_FUCTION_ON");
+               
                 //Calculate the direction towards enemies
                 Vector3 directionToTarget = (hit.point - transform.position).normalized;
 
@@ -428,13 +412,13 @@ public class PlayerController : MonoBehaviour
 
 
     // Enables and disables attacks
-    public void StartLightAttack() { curAttack = EAttackType.LightA; attackCounter++; }
-    public void StartHeavyAttack() { curAttack = EAttackType.HeavyA; attackCounter++; }
+   // public void StartLightAttack() { curAttack = EAttackType.LightA; attackCounter++; }
+    //public void StartHeavyAttack() { curAttack = EAttackType.HeavyA; attackCounter++; }
     //public void StartLPunch() { curAttack = EAttackType.LPunch; attackCounter++; }
     //public void StartRPunch() { curAttack = EAttackType.RPunch; attackCounter++; }
     //public void StartLKick() { curAttack = EAttackType.LKick; attackCounter++; }
     //public void StartRKick() { curAttack = EAttackType.RKick; attackCounter++; }
-    public void StopAttack() { curAttack = EAttackType.None; }
+    //public void StopAttack() { curAttack = EAttackType.None; }
 
     // Hit detection for attacks
     void UpdateAttacks ()
@@ -450,6 +434,7 @@ public class PlayerController : MonoBehaviour
             LCount = 0;
             HCount = 0;
             ComboCount = 0;
+            curAttack = EAttackType.None;
         }
 
 
@@ -481,103 +466,103 @@ public class PlayerController : MonoBehaviour
         {
             
             //Creates hit box (uses pos and size from array)
-            Vector3 center = HitBoxPositions[(int)curAttack - 1];
-            Vector3 size = HitBoxSizes[(int)curAttack - 1];
+           // Vector3 center = HitBoxPositions[(int)curAttack - 1];
+           // Vector3 size = HitBoxSizes[(int)curAttack - 1];
 
-            //Checks if there are colliders every frame
-            var colliders = Physics.OverlapBox(transform.position + (transform.rotation * center), size, transform.rotation);
-            if (colliders.Length > 0)
-            {
-                // Checks if intercepting collider has health component
-                foreach (var collider in colliders)
-                {
-                    var Health = collider.gameObject.GetComponent<EntityHealth>();
-                    if (Health == null)
-                        continue;
+            /* //Checks if there are colliders every frame
+             var colliders = Physics.OverlapBox(transform.position + (transform.rotation * center), size, transform.rotation);
+             if (colliders.Length > 0)
+             {
+                 // Checks if intercepting collider has health component
+                 foreach (var collider in colliders)
+                 {
+                     var Health = collider.gameObject.GetComponent<EntityHealth>();
+                     if (Health == null)
+                         continue;
 
-                    //Check if the collider of the object has the enemy tags
-                    // if yes, then inflict damage and knockback to said enemy
-                    if (Health.CompareTag("Enemy"))
-                    {
+                     //Check if the collider of the object has the enemy tags
+                     // if yes, then inflict damage and knockback to said enemy
+                     if (Health.CompareTag("Enemy"))
+                     {
 
-                        if(curAttack == EAttackType.LightA) 
-                        {
-                            //Apply Damage
-                            Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
-                            Health.Stun();
+                         if(curAttack == EAttackType.LightA) 
+                         {
+                             //Apply Damage
+                             Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
+                             Health.Stun();
 
-                            //Calculate kncokback
-                            Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
+                             //Calculate kncokback
+                             Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
 
-                            //Apply kncokback force
-                            Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
-                            if (enemy_Controller != null)
-                            {
-                                //calls the appltknockback function located in the Enemy_mantis_controller script
-                                enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
-                            }
+                             //Apply kncokback force
+                             Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
+                             if (enemy_Controller != null)
+                             {
+                                 //calls the appltknockback function located in the Enemy_mantis_controller script
+                                 enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
+                             }
 
-                        }
+                         }
 
-                        if (curAttack == EAttackType.HeavyA)
-                        {
-                            //Apply Damage
-                            Health.ApplyDamage(100, gameObject, EDamageType.StrongFist);
-                            Health.Stun();
+                         if (curAttack == EAttackType.HeavyA)
+                         {
+                             //Apply Damage
+                             Health.ApplyDamage(100, gameObject, EDamageType.StrongFist);
+                             Health.Stun();
 
-                            //Calculate kncokback
-                            Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
+                             //Calculate kncokback
+                             Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
 
-                            //Apply kncokback force
-                            Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
-                            if (enemy_Controller != null)
-                            {
-                                //calls the appltknockback function located in the Enemy_mantis_controller script
-                                enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.3f);
-                            }
+                             //Apply kncokback force
+                             Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
+                             if (enemy_Controller != null)
+                             {
+                                 //calls the appltknockback function located in the Enemy_mantis_controller script
+                                 enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.3f);
+                             }
 
-                        }
+                         }
 
 
 
-                    }
-                    // Applies damage and stuns, unless damage has already been dealt
-                    if (Health.lastAttackID != attackCounter)
-                    {
-                        Vector3 selfPosition = transform.localPosition;
+                     }
+                     // Applies damage and stuns, unless damage has already been dealt
+                     if (Health.lastAttackID != attackCounter)
+                     {
+                         Vector3 selfPosition = transform.localPosition;
 
-                        Health.lastAttackID = attackCounter;
-                        Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
-                        Health.Stun();
-                    }
+                         Health.lastAttackID = attackCounter;
+                         Health.ApplyDamage(20, gameObject, EDamageType.StrongFist);
+                         Health.Stun();
+                     }
 
-                    if (Health.CompareTag("Player"))
-                    {
+                     if (Health.CompareTag("Player"))
+                     {
 
-                        /*
+                         /*
 
-                        //Apply Damage
-                        Health.ApplyDamage(0, gameObject, EDamageType.StrongFist);
-                        Health.Stun();
+                         //Apply Damage
+                         Health.ApplyDamage(0, gameObject, EDamageType.StrongFist);
+                         Health.Stun();
 
-                        //Calculate kncokback
-                        Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
+                         //Calculate kncokback
+                         Vector3 knockbackDirection = (collider.transform.position - transform.position).normalized;
 
-                        //Apply kncokback force
-                        Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
-                        if (enemy_Controller != null)
-                        {
-                            //calls the appltknockback function located in the Enemy_mantis_controller script
-                            enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
-                        }*/
+                         //Apply kncokback force
+                         Enemy_Controller_Mantis enemy_Controller = collider.gameObject.GetComponent<Enemy_Controller_Mantis>();
+                         if (enemy_Controller != null)
+                         {
+                             //calls the appltknockback function located in the Enemy_mantis_controller script
+                             enemy_Controller.ApplyKnockback(knockbackDirection, knockbackdistance, 0.1f);
+                         }
 
-                    }
-                    
-                }
-            }
+                     }
+
+                 }
+             }*/
 
             //Creates visual for hit box
-            DebugExtension.DebugLocalCube(transform, size * 2, Color.red, center);
+            //DebugExtension.DebugLocalCube(transform, size * 2, Color.red, center);
         }
     }
 
