@@ -17824,7 +17824,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 70
+  field of view: 80
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -17850,8 +17850,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21661831, y: -0, z: -0, w: 0.9762564}
-  m_LocalPosition: {x: 0, y: 3.63, z: -3.87}
+  m_LocalRotation: {x: 0.49138168, y: -0, z: -0, w: 0.8709444}
+  m_LocalPosition: {x: 0, y: 5.36, z: -1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17910,7 +17910,7 @@ GameObject:
   - component: {fileID: 974136371}
   m_Layer: 3
   m_Name: Campground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

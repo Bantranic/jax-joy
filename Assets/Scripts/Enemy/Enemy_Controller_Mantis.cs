@@ -166,13 +166,15 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            gameObject.GetComponent<Rigidbody>().isKinematic = true;
+           
 
             Debug.Log("Touching " + collision.gameObject.name);
             if (gameObject.GetComponent<NavMeshAgent>().enabled == false)
             {
                 gameObject.GetComponent<NavMeshAgent>().enabled = true;
             }
+
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 
