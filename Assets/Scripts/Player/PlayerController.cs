@@ -269,22 +269,26 @@ public class PlayerController : MonoBehaviour
                 //UnityEngine.Debug.Log("HeavyA1");
 
             }
-
-            //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
-            if (LCount == 0 && HCount == 2)
+            else if (LCount == 0 && HCount == 2)
             {
                 curAttack = EAttackType.HeavyA2;
                 comboTime = comboTimeSet;// reset combo time
                 animator.SetTrigger("HeavyA2");// calls animation condition
                 //UnityEngine.Debug.Log("HeavyA1")
             }
-            //JAX HEAVYATTACKS and Joys for the moment can be seperated in the future 
-            if (LCount == 1 && HCount == 2)
+            else if (LCount == 1 && HCount == 1)
+            {
+                curAttack = EAttackType.HeavyA1;
+                comboTime = comboTimeSet;// reset combo time
+                animator.SetTrigger("HeavyA3");// calls animation condition
+                //UnityEngine.Debug.Log("HeavyA1")
+            }
+            else if(LCount == 1 && HCount == 2) 
             {
                 curAttack = EAttackType.HeavyA2;
                 comboTime = comboTimeSet;// reset combo time
-                animator.SetTrigger("HeavyA2");// calls animation condition
-                //UnityEngine.Debug.Log("HeavyA1")
+                animator.SetTrigger("HeavyA4");// calls animation condition
+
             }
 
             //JOY HEAVYATTACKS Go here in future

@@ -103,7 +103,7 @@ MonoBehaviour:
   radius: 1
   knockbackDistance: 1
   knockbackDuration: 0.2
-  damageLight: 0
+  damageLight: 20
   damageHeavy: 40
   player: {fileID: 2985209802356612191}
 --- !u!1 &4734850036098292965
@@ -210,7 +210,7 @@ MonoBehaviour:
   radius: 1
   knockbackDistance: 1
   knockbackDuration: 0.2
-  damageLight: 0
+  damageLight: 20
   damageHeavy: 40
   player: {fileID: 2985209802356612191}
 --- !u!1 &5581456893855866858
@@ -285,7 +285,7 @@ MonoBehaviour:
   radius: 1
   knockbackDistance: 1
   knockbackDuration: 0.2
-  damageLight: 0
+  damageLight: 20
   damageHeavy: 40
   player: {fileID: 2985209802356612191}
 --- !u!1 &6545512043881242531
@@ -496,7 +496,7 @@ MonoBehaviour:
   radius: 1
   knockbackDistance: 1
   knockbackDuration: 0.2
-  damageLight: 0
+  damageLight: 20
   damageHeavy: 40
   player: {fileID: 2985209802356612191}
 --- !u!1001 &2714810406592307470
@@ -1127,6 +1127,7 @@ MonoBehaviour:
   lastAttackID: 0
   knockBackForce: 0
   playerUI: {fileID: 0}
+  Respawn_position: {fileID: 0}
 --- !u!114 &3605288067031267731
 MonoBehaviour:
   m_ObjectHideFlags: 0
