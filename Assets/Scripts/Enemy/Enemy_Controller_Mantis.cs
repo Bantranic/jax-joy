@@ -19,10 +19,13 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     private bool isStunned = false; 
 
     private Animator animator;
+    private Rigidbody rb;
 
     public GameObject hitbox;
 
     GameObject[] players;
+
+    private float stunDuration;
 
     //Patrolling 
     private Vector3 walkPoint;
@@ -42,7 +45,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
-
+        rb = gameObject.GetComponent<Rigidbody>();
         players = GameObject.FindGameObjectsWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
 
@@ -159,7 +162,19 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         hitbox.SetActive(false);
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
 
+            Debug.Log("Touching " + collision.gameObject.name);
+            if (gameObject.GetComponent<NavMeshAgent>().enabled == false)
+            {
+                gameObject.GetComponent<NavMeshAgent>().enabled = true;
+            }
+        }
+    }
 
 
     // Update is called once per frame
@@ -200,16 +215,31 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
         if(isStunned == false)
         {
-            if (!playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Patroling();//if player is out of sight range 
-            else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Chasing();// If player is in sight range
-            else if (playerInSightRange && playerInAttackRange && health.state == EDamageState.Neutral) Attacking();// If player is in attack range
-            else
+            if (gameObject.GetComponent<NavMeshAgent>().enabled == true)
             {
-                agent.SetDestination(transform.localPosition);
+                if (!playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Patroling();//if player is out of sight range 
+                else if (playerInSightRange && !playerInAttackRange && health.state == EDamageState.Neutral) Chasing();// If player is in sight range
+                else if (playerInSightRange && playerInAttackRange && health.state == EDamageState.Neutral) Attacking();// If player is in attack range
+                else
+                {
+                    agent.SetDestination(transform.localPosition);
+                }
             }
 
         }
-        
+        else
+        {
+            stunDuration += 1.7f * Time.deltaTime;
+            rb.drag = 5;
+        }
+
+        if (stunDuration >= 2)
+        {
+            isStunned = false;
+            stunDuration = 0f;
+            rb.drag = 0f;
+        }
+
 
 
         //Checks if animation is playing
@@ -242,6 +272,15 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
     public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance, float duration) 
     {
+        if(gameObject.GetComponent<NavMeshAgent>().enabled == true) 
+        {
+            gameObject.GetComponent<NavMeshAgent>().enabled = false;
+        }
+        
+        isStunned = true;
+        //stunDuration = 0f;
+        gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        //health.state = EDamageState.Stun;
         //UnityEngine.Debug.Log("Knockback");
         // moves the enemy to knockback position by starting a corouttine
         // The Coroutine loops until the elasped time set equal the duration set in the fuction,
@@ -256,7 +295,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         Vector3 initialPosition = transform.position;
 
         //Calculate target position, so target position = current positon + the direction times by the distance
-        Vector3 targetPosition = initialPosition + knockbackDirection + new Vector3(0,1,0) * knockbackDistance;
+        Vector3 targetPosition = initialPosition + knockbackDirection * knockbackDistance;
 
         // 
         float elapsedTime = 0f;
