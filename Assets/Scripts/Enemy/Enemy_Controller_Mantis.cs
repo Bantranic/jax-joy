@@ -341,7 +341,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     private IEnumerator Attack() 
     {
         alreadyAttacked = true;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(1f);
 
         if (health.state == EDamageState.Neutral) 
         {

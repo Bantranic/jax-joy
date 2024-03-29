@@ -31,6 +31,16 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetButton("Fire1")) 
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
+
+        if (Input.GetKeyDown("m")) 
+        {
+            OnQuit();
+        }
+
         if(isWhite == true) 
         {
             c.a += 0.1f;

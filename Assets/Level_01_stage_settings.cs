@@ -15,7 +15,12 @@ public class Level_01_stage_settings : MonoBehaviour
     {
 
 
+        if (Input.GetKeyDown("r")) 
+        {
+            Restart();
 
+
+        }
         //Test code to change the pitch of a sound with a siimple button Press
         //IT WORKS!!!!
         /*if (Input.GetKeyDown("e")) 
@@ -28,7 +33,14 @@ public class Level_01_stage_settings : MonoBehaviour
 
     public void Retry() 
     {
+       //Game over
+        SceneManager.LoadScene("Game Over");
+    }
+
+    public void Restart()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+       
     }
 
 }

@@ -339,6 +339,7 @@ public class EntityHealth : MonoBehaviour
             {
                 Debug.LogError("Not RESPAWN OBJECT");
                 GameObject.Find("Stage_settings").GetComponent<Level_01_stage_settings>().Retry();
+
             }
             
 

@@ -44,7 +44,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick button 8
     altNegativeButton: 
-    altPositiveButton: mouse 0
+    altPositiveButton: q
     gravity: 1000
     dead: 0.001
     sensitivity: 1000

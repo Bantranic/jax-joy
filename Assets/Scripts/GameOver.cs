@@ -12,6 +12,10 @@ public class GameOver : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetButton("Fire1")) 
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
      
     }
     public void MenuPress()
