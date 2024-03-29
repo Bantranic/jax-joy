@@ -41,12 +41,12 @@ public class EntityHealth : MonoBehaviour
 
     // Death
     public float deathTime = 0;
-    
+
     //Player death cout
     private int deathCount = 0;
     // Sets damage state to neutral
     public EDamageState state = EDamageState.Neutral;
-    
+
     // Checking if attack has been done
     public int lastAttackID = 0;
 
@@ -54,13 +54,18 @@ public class EntityHealth : MonoBehaviour
     public float knockBackForce;
 
     public PlayerUI playerUI;
-    
+
     public GameObject Respawn_position;
+    public List<GameObject> Mats;
+    private List<Color> names;
+    private Color Savedcolour;
+    private bool isRed = false;
 
     private void Start()
     {
         currentHealth = maxHealth;
 
+       // Mats = new List<GameObject>();
         if(playerUI != null) 
         {
             playerUI.SetMaxHealth();
@@ -82,16 +87,76 @@ public class EntityHealth : MonoBehaviour
             Respawn_position = null;
         }
 
+        foreach (Transform child in this.transform)
+        {
+           
+
+           Mats.Add(child.gameObject);
+              
+            
+            if(child.GetComponent<SkinnedMeshRenderer>() == null) 
+            {
+
+                Mats.Remove(child.gameObject);
+            }
+            else 
+            {
+                child.GetComponent<SkinnedMeshRenderer>().enabled = true;
+
+            }
+
+            
+
+        }
+
+    }
+
+    
+
+    public void Stun()
+    {
+        Debug.Log("CHECK1");
+        // Checks if health is greater than 0, then sets stun time and applies to entity
+        if (currentHealth <= 0 || state > EDamageState.Stun)
+            return;
+        
+        if(state != EDamageState.Death) 
+        {
+            //Set the Players Health in The UI Script settings
+            if (gameObject.CompareTag("Player"))
+            {
+                playerUI.SetHealth();
+                this.GetComponent<Animator>().SetTrigger("Stun");
+
+            }
+            if (isRed == false)
+            {
+                
+                StartCoroutine(FlashRed());
+                isRed = true;
+            }
+
+            
+
+            state = EDamageState.Stun;
+
+            resetTime = Time.time + 1;
+
+
+
+        }
+        
+
     }
 
     // Tells player how much damage something took
     public virtual float ApplyDamage(float damage, GameObject causer, EDamageType type)
     {
         //Vector3 currentposition = transform.position;
-       
-     
 
-        if(isDamageable == true) 
+
+
+        if (isDamageable == true)
         {
 
             currentHealth -= damage;
@@ -99,45 +164,51 @@ public class EntityHealth : MonoBehaviour
             isDamageable = false;
 
         }
-        
+
         if (currentHealth <= 0 && gameObject.tag != "Player")//if player health is 0 then player death 
         {
             Death();
         }
-       return damage;
-    }
-
-    public void Stun()
-    {
-        // Checks if health is greater than 0, then sets stun time and applies to entity
-        if (currentHealth <= 0 || state > EDamageState.Stun)
-            return;
-
-        //Set the Players Health in The UI Script settings
-        if (gameObject.CompareTag("Player")) 
-        {
-            playerUI.SetHealth();
-            this.GetComponent<Animator>().SetTrigger("Stun");
-
-        }
-
-        state = EDamageState.Stun;
-
-        resetTime = Time.time + 1;
-
+        return damage;
     }
 
     void Update()
     {
 
-        if (Input.GetKeyDown("e") && this.gameObject.name == "Player 2") 
+        if (Input.GetKeyDown("e")) 
         {
-            Debug.Log("RESPAWNING");
 
-            this.transform.GetComponent<CharacterController>().enabled = false;
-            this.transform.position = Respawn_position.transform.position + new Vector3(-1, 1, 0);
-            this.transform.GetComponent<CharacterController>().enabled = true;
+            foreach (GameObject mat in Mats)
+            {
+                Debug.Log("Working");
+                StartCoroutine(FlashRed());
+                //mat.GetComponent<SkinnedMeshRenderer>().enabled = true;
+
+
+            }
+
+            
+
         }
+
+        if (Input.GetKeyDown("t"))
+        {
+
+            foreach (GameObject mat in Mats)
+            {
+
+
+                //mat.GetComponent<SkinnedMeshRenderer>().enabled = false;
+
+                mat.GetComponent<SkinnedMeshRenderer>().enabled = true;
+
+
+            }
+
+
+
+        }
+
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -194,7 +265,6 @@ public class EntityHealth : MonoBehaviour
         //Only happens to the player gameobjects
         if(currentHealth == 0 && gameObject.tag == "Player") 
         {
-
             playerUI.SetHealth();
             PlayerDeath();
 
@@ -222,6 +292,8 @@ public class EntityHealth : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+   
 
     void PlayerDeath()
     {
@@ -275,6 +347,86 @@ public class EntityHealth : MonoBehaviour
     }
 
 
+    public IEnumerator FlashRed()
+    {
+        //int Countdown = 3;
+        float timeVisible = 0.1f;
+        float timeInvisible = 0.1f;
+        float blinkFor = 0.5f;
+
+
+        var whenAreWeDone = Time.time + blinkFor;
+
+        while(Time.time < whenAreWeDone) 
+        {
+            foreach (Transform child in this.transform)
+            {
+                Debug.Log("Check1");
+
+                if (child.GetComponent<SkinnedMeshRenderer>() != null)
+                {
+                    Debug.Log("Check2");
+                    child.GetComponent<SkinnedMeshRenderer>().enabled = false;
+
+
+                }
+
+
+
+
+            }
+            yield return new WaitForSeconds(timeInvisible);
+            foreach (Transform child in this.transform)
+            {
+                Debug.Log("Check1");
+
+                if (child.GetComponent<SkinnedMeshRenderer>() != null)
+                {
+                    Debug.Log("Check2");
+                    child.GetComponent<SkinnedMeshRenderer>().enabled = true;
+
+
+                }
+
+
+
+
+            }
+            yield return new WaitForSeconds(timeVisible);
+
+            isRed = false;
+            Debug.Log("RED = False");
+
+        }
+        
+
+        //yield return null;
+
+        foreach (GameObject mat in Mats)
+        {
+            
+
+            //mat.GetComponent<SkinnedMeshRenderer>().enabled = false;
+           // yield return null;
+            //yield return new WaitForSeconds(0.6f);
+            //mat.GetComponent<SkinnedMeshRenderer>().enabled = true;
+            /* Debug.Log("Check2");
+                var savedC = mat.color;
+                 mat.color = Color.red;
+                 yield return new WaitForSeconds(0.2f);
+            
+             mat.color = savedC;
+             isRed = false;
+             Debug.Log("Check3");*/
+
+        }
+
+
+
+
+
+    }
+
 
     public void takesdamage(int damageAmount) 
     {
@@ -284,4 +436,6 @@ public class EntityHealth : MonoBehaviour
 
 
     }
+
+    
 }

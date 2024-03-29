@@ -96,7 +96,7 @@ public class enemy_spawn : MonoBehaviour
     {
         Vector3 randomPosition = gameObject.transform.position + Random.insideUnitSphere * spawnAreaRadius;
         randomPosition.y = 0;
-        var spawn = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+        var spawn = Instantiate(enemyPrefab, this.transform.position, Quaternion.identity);
         spawn.transform.parent= transform;
 
     

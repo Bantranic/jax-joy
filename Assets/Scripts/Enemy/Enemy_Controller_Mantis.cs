@@ -32,6 +32,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     private Vector3 walkPoint;
     bool walkPointSet;
     private float walkPointRange;
+    private bool isRunning = true;
 
     //chasing
     Vector3 playerPosition;
@@ -39,6 +40,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     //Attacking
     public float timeBetweenAttacks;
     public bool alreadyAttacked;
+    private bool isStopped = true;
 
     public float sightRange, AttackRange;
     public bool playerInSightRange, playerInAttackRange;
@@ -89,7 +91,15 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     }
     private void Chasing()
     {
+        if (isRunning == true)
+        {
+            animator.SetTrigger("Run");
+            isRunning = false;
+            isStopped = true;
+
+        }
         agent.speed = speed;
+        
         //If players where found with tag and there is at least one player in the level
         if (players != null && players.Length > 0)
         {
@@ -102,10 +112,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             Debug.LogError("NO Game Object found with Player tag");
         }
 
-        
-        animator.SetTrigger("Run");
         agent.SetDestination(playerPosition);
-
 
         Vector3 directionToPlayer = playerPosition - transform.position;
         directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
@@ -116,6 +123,16 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     }
     private void Attacking() 
     {
+        if(isStopped == true) 
+        {
+            animator.SetTrigger("Idle");
+            isStopped = false;
+            isRunning = true;
+            
+
+        }
+        
+
         // Stops in movement so it does collide into player 
         // adjust the attack range range for stoping distance
         agent.SetDestination(transform.localPosition);
@@ -124,11 +141,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         if (!alreadyAttacked)//If already attacked equals false
         {
             //all attack functionallity should go here
-
-            //atacking action here
-            animator.SetTrigger("Attack");
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            StartCoroutine(Attack());
 
             
         }
@@ -250,7 +263,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             float animationtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
 
-            if(animationtime >= 0.1f && animationtime <= 0.8f) 
+           /* if(animationtime >= 0.1f && animationtime <= 0.8f) 
             {
                // Debug.Log("hitbox on");
                 ActivateHitbox();
@@ -260,7 +273,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             {
                 //Debug.Log("Hitbox off");
                 DeactivateHitbox();
-            }
+            }*/
 
         
         }
@@ -322,6 +335,31 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
         // Ensure the enemy reaches the exact target position
         transform.position = targetPosition;
+
+    }
+
+    private IEnumerator Attack() 
+    {
+        alreadyAttacked = true;
+        yield return new WaitForSeconds(4f);
+
+        if (health.state == EDamageState.Neutral) 
+        {
+            animator.SetTrigger("Attack");
+            alreadyAttacked = true;
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+
+
+        }
+        else 
+        {
+            alreadyAttacked = false;
+            // alreadyAttacked = true;
+            //Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            yield return null;
+        }
+        
+
 
     }
 
