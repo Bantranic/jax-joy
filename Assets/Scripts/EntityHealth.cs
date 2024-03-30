@@ -177,13 +177,14 @@ public class EntityHealth : MonoBehaviour
 
         if (Input.GetKeyDown("e")) 
         {
+            currentHealth = 0;
 
             foreach (GameObject mat in Mats)
             {
                 Debug.Log("Working");
-                StartCoroutine(FlashRed());
+                //StartCoroutine(FlashRed());
                 //mat.GetComponent<SkinnedMeshRenderer>().enabled = true;
-
+                
 
             }
 
