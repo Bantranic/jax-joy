@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class CamTarget : MonoBehaviour
 {
+    public EntityHealth Player1;
+    public EntityHealth Player2;
+
     void Update()
     {
-        if (PlayerController.Player2 != null && PlayerController.Player1 != null)
+        if (Player1.state != EDamageState.Death && Player2.state != EDamageState.Death)
             transform.position = (PlayerController.Player1.transform.position + PlayerController.Player2.transform.position) / 2;
-        else
-            transform.position = PlayerController.Player2 == null ? PlayerController.Player1.transform.position : PlayerController.Player2.transform.position;
+        else if (Player1.state == EDamageState.Death)
+        { transform.position = PlayerController.Player2.transform.position;}
+        else if (Player2.state == EDamageState.Death)
+        { transform.position = PlayerController.Player1.transform.position; }
     }
 }

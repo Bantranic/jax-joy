@@ -179,6 +179,15 @@ public class EntityHealth : MonoBehaviour
             currentHealth = 0;
         }
 
+        if(state == EDamageState.Death && gameObject.tag == "Player") 
+        {
+            currentHealth += 50 * Time.deltaTime;
+            playerUI.SetHealth();
+            Debug.Log("HEALTHING UP");
+
+        }
+
+
 
         if (state == EDamageState.Stun && gameObject.tag == "Player") 
         {
@@ -194,10 +203,13 @@ public class EntityHealth : MonoBehaviour
         //Only happens to the player gameobjects
         if(currentHealth == 0 && gameObject.tag == "Player") 
         {
-
             playerUI.SetHealth();
             PlayerDeath();
 
+        }
+        else if (state == EDamageState.Death) 
+        {
+            PlayerDeath();
         }
         else if(gameObject.tag == "Player")
         {
@@ -233,7 +245,7 @@ public class EntityHealth : MonoBehaviour
 
 
         deathTime += 1 * Time.deltaTime;
-
+        
         if (state == EDamageState.Death)
         {
             controller.isDead = true;
@@ -242,11 +254,10 @@ public class EntityHealth : MonoBehaviour
             
 
             //Debug.Log(gameObject.name + " is Death");
-
             deathCount = 1;
         }
 
-        if (deathTime >= 5) 
+        if (currentHealth >= maxHealth) 
         {
             state = EDamageState.Neutral;
             animator.SetTrigger("UnDeath");
