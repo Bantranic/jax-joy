@@ -3,38 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy_Controller_Mantis : MonoBehaviour
+public class Enemy_controller_Ranger : MonoBehaviour
 {
+    public GameObject LAPosition;
+
+    [Header("Movement Settings")]
     public NavMeshAgent agent;
     public float speed;
     public Transform player;
-
     public LayerMask whatIsGround, whatIsPlayer, whatIsEnemy;
-
-    public EntityHealth health;
-    public EDamageState state;
-
-    private bool isStunned = false; 
-
     private Animator animator;
     private Rigidbody rb;
 
-    public GameObject hitbox;
+    [Header("Health Settings")]
+    public EntityHealth health;
+    public EDamageState state;
+    private bool isStunned = false;
+
+    
+
+    [Header("Laser Variables")]
+    public GameObject Laser;
+    public float chargeSpeed;
+    public float chargeValue = 0f;
+    public float midChargeValue;
+    public float maxChargeValue;
+    public float laserDuration;
+    private float resetValue;
+
+
 
     GameObject[] players;
     private GameObject targetPlayer;
-
     private float stunDuration;
 
-    //Patrolling 
+   
     private Vector3 walkPoint;
     bool walkPointSet;
     private float walkPointRange;
-
-    //chasing
     Vector3 playerPosition;
     //public float avoidanceDistance;
-    //Attacking
+    [Header("Attack Settings")]
     public float timeBetweenAttacks;
     public bool alreadyAttacked;
 
@@ -48,11 +57,13 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         targetPlayer = players[Random.Range(0, players.Length)];
+
+        agent.updateRotation = false;
     }
 
 
 
-    private void Patroling() 
+    private void Patroling()
     {
 
         if (!walkPointSet) SearchWalkPoint();
@@ -62,14 +73,14 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         //if walkpoint is reached get new point
-        if(distanceToWalkPoint.magnitude < 1) 
+        if (distanceToWalkPoint.magnitude < 1)
         {
             walkPointSet = false;
         }
-    
+
     }
-    
-    private void SearchWalkPoint() 
+
+    private void SearchWalkPoint()
     {
         // More or less for testing purposes but if it can't see the player
         // enemy will walk randomly
@@ -79,7 +90,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
         walkPoint = new Vector3(transform.position.x + randomx, transform.position.y, transform.position.z + randomz);
 
-        if(Physics.Raycast(walkPoint,-transform.up, 2f, whatIsGround)) 
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
         {
             walkPointSet = true;
         }
@@ -93,14 +104,14 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         {
 
             playerPosition = targetPlayer.transform.position;
-           // Debug.Log("Players in =" + playerPosition);
+            // Debug.Log("Players in =" + playerPosition);
         }
         else
         {
             Debug.LogError("NO Game Object found with Player tag");
         }
 
-        
+
         animator.SetTrigger("Run");
         agent.SetDestination(playerPosition);
 
@@ -112,9 +123,12 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         transform.LookAt(player);
 
     }
-    private void Attacking() 
+    private void Attacking()
     {
+        agent.speed = 0;
+       
 
+        //If players where found with tag and there is at least one player in the level
         if (players != null && players.Length > 0)
         {
 
@@ -128,54 +142,122 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
         // Stops in movement so it does collide into player 
         // adjust the attack range range for stoping distance
-        agent.SetDestination(transform.localPosition);
-        agent.speed = 0;
+        //agent.SetDestination(playerPosition);
+       // agent.speed = 0;
+        
 
         if (!alreadyAttacked)//If already attacked equals false
         {
             //all attack functionallity should go here
 
+            LaserCharge();
+            /*
+             laserCharge += 1 
+             spawn 
+             
+             */
             //atacking action here
-            animator.SetTrigger("Attack");
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-
-            Vector3 directionToPlayer = playerPosition;
-            directionToPlayer.x = playerPosition.x;
-            directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
-            transform.LookAt(directionToPlayer);
+            //animator.SetTrigger("Attack");
+           
+           //Invoke(nameof(ResetAttack), timeBetweenAttacks);
 
 
         }
+        else 
+        {
+          
+            resetValue += 2f * Time.deltaTime;
 
-      
-     
+            Debug.Log(resetValue);
+
+            if(resetValue >= laserDuration) //Attack resets and laser is turned off
+            {
+                DeactivateHitbox();
+               
+
+            }
+
+            if(resetValue >= timeBetweenAttacks) 
+            {
+                ResetAttack();
+            }
+
+        }
+
+       
+
 
     }
     private void ResetAttack()
     {
         //Debug.Log("RESET");
+        resetValue = 0f;
         alreadyAttacked = false;
 
     }
 
+    public void LaserCharge()
+    {
+       if(chargeValue <= midChargeValue) 
+        {
+            chargeValue += chargeSpeed * Time.deltaTime;
+            //Laser rotate
+            //Laser Object phase 1
+            // Calculate direction to the player
+            Vector3 directionToPlayer = playerPosition - transform.position;
+            directionToPlayer.y = 0f; // Ensure the enemy doesn't tilt up or down
+
+            //agent.updateRotation = false;
+            transform.rotation = Quaternion.LookRotation(directionToPlayer);
+            transform.LookAt(playerPosition);
+
+        }
+       else if (chargeValue <= maxChargeValue) 
+        {
+            chargeValue += chargeSpeed * Time.deltaTime;
+            //Laser locked
+            //Laser Object phase 2
+
+        }
+
+       if (chargeValue >= maxChargeValue) 
+        {
+            Debug.Log("I'm A FIRING THE LASER");
+            chargeValue = maxChargeValue;
+            LaserShoot();
+        }
+
+
+    }
+
+    public void LaserShoot() 
+    {
+
+        ActivateHitbox();
+        chargeValue = 0f;
+        alreadyAttacked = true;
+
+
+    }
+
+
     // Called to activate the hitbox at the start of the attack animation
     public void ActivateHitbox()
     {
-        hitbox.SetActive(true);
+        Laser.SetActive(true);
     }
 
     // Called to deactivate the hitbox at the end of the attack animation
     public void DeactivateHitbox()
     {
-        hitbox.SetActive(false);
+        Laser.SetActive(false);
     }
 
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-           
+
 
             Debug.Log("Touching " + collision.gameObject.name);
             if (gameObject.GetComponent<NavMeshAgent>().enabled == false)
@@ -191,6 +273,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
 
         /*if (Input.GetKeyDown("t")) 
         {
@@ -208,14 +291,14 @@ public class Enemy_Controller_Mantis : MonoBehaviour
             health.state = EDamageState.Neutral;
         }*/
 
-        
+
 
         //Stops hitbox being active after death
-        if(health.state == EDamageState.Death)
+        if (health.state == EDamageState.Death)
         {
             DeactivateHitbox();
             agent.speed = 0;
-        
+
         }
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
@@ -224,7 +307,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         //Debug.Log(state);
         //Debug.Log("Destinion = " + playerPosition);
 
-        if(isStunned == false)
+        if (isStunned == false)
         {
             if (gameObject.GetComponent<NavMeshAgent>().enabled == true)
             {
@@ -254,40 +337,40 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
 
         //Checks if animation is playing
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) 
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             // Determine when to activate/deactivate the hitbox based on animation time
             float animationtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
 
-            if(animationtime >= 0.1f && animationtime <= 0.8f) 
+            if (animationtime >= 0.1f && animationtime <= 0.8f)
             {
-               // Debug.Log("hitbox on");
+                // Debug.Log("hitbox on");
                 ActivateHitbox();
-            
+
             }
-            else 
+            else
             {
                 //Debug.Log("Hitbox off");
                 DeactivateHitbox();
             }
 
-        
+
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-       // Debug.Log("HIT");
+        // Debug.Log("HIT");
     }
 
-    public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance, float duration) 
+    public void ApplyKnockback(Vector3 KnockbackDirection, float knockbackdistance, float duration)
     {
-        if(gameObject.GetComponent<NavMeshAgent>().enabled == true) 
+        if (gameObject.GetComponent<NavMeshAgent>().enabled == true)
         {
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
         }
-        
+
         isStunned = true;
         //stunDuration = 0f;
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
@@ -297,10 +380,10 @@ public class Enemy_Controller_Mantis : MonoBehaviour
         // The Coroutine loops until the elasped time set equal the duration set in the fuction,
         // To increase the speed increase the knockback distance and to decrease the duration...decrease the duration.
         StartCoroutine(Knockbackaction(KnockbackDirection, knockbackdistance, duration));
-    
+
     }
 
-    private IEnumerator Knockbackaction(Vector3 knockbackDirection, float knockbackDistance, float duration) 
+    private IEnumerator Knockbackaction(Vector3 knockbackDirection, float knockbackDistance, float duration)
     {
         //Save intial postion of the the enemy
         Vector3 initialPosition = transform.position;
@@ -313,7 +396,7 @@ public class Enemy_Controller_Mantis : MonoBehaviour
 
 
         //loop until elapsed time equal the duration
-        while(elapsedTime < duration) 
+        while (elapsedTime < duration)
         {
 
             // Calculate the interpolation factor (0 to 1)
