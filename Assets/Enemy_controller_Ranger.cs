@@ -35,6 +35,7 @@ public class Enemy_controller_Ranger : MonoBehaviour
 
     GameObject[] players;
     private GameObject targetPlayer;
+    private PlayerController targetPlayerController;
     private float stunDuration;
 
    
@@ -57,6 +58,7 @@ public class Enemy_controller_Ranger : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         targetPlayer = players[Random.Range(0, players.Length)];
+        targetPlayerController = targetPlayer.GetComponent<PlayerController>(); 
 
         agent.updateRotation = false;
     }
@@ -168,7 +170,7 @@ public class Enemy_controller_Ranger : MonoBehaviour
           
             resetValue += 2f * Time.deltaTime;
 
-            Debug.Log(resetValue);
+            //Debug.Log(resetValue);
 
             if(resetValue >= laserDuration) //Attack resets and laser is turned off
             {
@@ -201,6 +203,8 @@ public class Enemy_controller_Ranger : MonoBehaviour
        if(chargeValue <= midChargeValue) 
         {
             chargeValue += chargeSpeed * Time.deltaTime;
+            if (chargeValue >= midChargeValue)
+                animator.SetTrigger("Attack");
             //Laser rotate
             //Laser Object phase 1
             // Calculate direction to the player
@@ -222,6 +226,8 @@ public class Enemy_controller_Ranger : MonoBehaviour
 
        if (chargeValue >= maxChargeValue) 
         {
+            animator.SetTrigger("Attack2");
+
             Debug.Log("I'm A FIRING THE LASER");
             chargeValue = maxChargeValue;
             LaserShoot();

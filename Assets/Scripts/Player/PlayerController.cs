@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     // What moves the player
     private CharacterController controller;
-    private Vector3 playerVelocity;
+    public Vector3 playerVelocity;
 
     private bool groundedPlayer;
     [SerializeField]
@@ -591,7 +591,10 @@ public class PlayerController : MonoBehaviour
 
         // Turns player speed into m/s
         Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
-        controller.Move(move * playerSpeed * Time.deltaTime);
+        //controller.Move(move * playerSpeed * Time.deltaTime);
+        playerVelocity.x = 0;
+        playerVelocity.z = 0;
+        playerVelocity += move * playerSpeed;
 
         // If we move, we move...
         if (move != Vector3.zero)
